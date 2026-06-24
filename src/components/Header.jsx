@@ -1,178 +1,206 @@
 import { useState } from 'react'
-import { 
-  FaFacebook, 
-  FaInstagram, 
-  FaYoutube, 
+import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import {
+  FaFacebook,
+  FaInstagram,
+  FaYoutube,
   FaMedium,
   FaBars,
   FaTimes
 } from 'react-icons/fa'
+import UserMenu from './UserMenu'
 import './Header.css'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState(null)
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+  const { user } = useAuth()
 
   const closeMenu = () => {
     setIsMenuOpen(false)
     setActiveDropdown(null)
   }
 
-  const toggleDropdown = (label) => {
-    setActiveDropdown(activeDropdown === label ? null : label)
-  }
-
   const socialMedia = [
     {
       name: 'Facebook',
       icon: <FaFacebook />,
-      url: 'https://www.facebook.com',
+      url: 'https://www.facebook.com/CounsellingServiceIitKanpur',
       tooltip: 'Like us on Facebook'
     },
     {
       name: 'Instagram',
       icon: <FaInstagram />,
-      url: 'https://www.instagram.com',
+      url: 'https://www.instagram.com/counsellingserviceiitk/',
       tooltip: 'Follow us on Instagram'
     },
     {
       name: 'Youtube',
       icon: <FaYoutube />,
-      url: 'https://www.youtube.com',
+      url: 'https://www.youtube.com/channel/UCRwww9qZ5Ec5jLIiBkaoXvA',
       tooltip: 'Subscribe us on Youtube'
     },
     {
       name: 'Medium',
       icon: <FaMedium />,
-      url: 'https://medium.com',
+      url: 'https://medium.com/@csiitk',
       tooltip: 'Follow us on Medium'
     }
   ]
 
   const navigationLinks = [
-    { label: 'Team', href: '#team' },
+    { label: 'Home', href: '/', type: 'link' },
+    { label: 'Team', href: '#team', type: 'anchor' },
     {
       label: 'Services',
       href: '#services',
+      type: 'anchor',
       submenu: [
-        { label: 'Mental Health Support', href: '#' },
-        { label: 'Counseling Sessions', href: '#' },
-        { label: 'Crisis Support', href: '#' },
-        { label: 'Group Therapy', href: '#' }
+        { label: 'Mental Health Support', href: '#', type: 'anchor' },
+        { label: 'Counseling Sessions', href: '#', type: 'anchor' },
+        { label: 'Crisis Support', href: '#', type: 'anchor' },
+        { label: 'Group Therapy', href: '#', type: 'anchor' }
       ]
     },
     {
       label: 'Appointments',
-      href: '#appointments',
+      href: '#',
+      type: 'noaction',
       submenu: [
-        { label: 'Book Online', href: '#' },
-        { label: 'Check Status', href: '#' },
-        { label: 'Reschedule', href: '#' },
-        { label: 'Cancel Appointment', href: '#' }
+        { label: 'Student', href: '/login/student', type: 'link' },
+        { label: 'Counsellor', href: '/login/counsellor', type: 'link' },
+        { label: 'Administrator', href: '/login/administrator', type: 'link' },
+        { label: 'Dean, Student Welfare', href: '/login/dean', type: 'link' },
+        { label: 'External 24x7 Counselling by Tele MANAS', href: '/tele_manas', type: 'link' }
       ]
     },
     {
       label: 'Support',
       href: '#support',
+      type: 'anchor',
       submenu: [
-        { label: 'Emergency Hotline', href: '#' },
-        { label: 'Peer Support', href: '#' },
-        { label: 'Family Counseling', href: '#' },
-        { label: 'Crisis Resources', href: '#' }
+        { label: 'Emergency Hotline', href: '#', type: 'anchor' },
+        { label: 'Peer Support', href: '#', type: 'anchor' },
+        { label: 'Family Counseling', href: '#', type: 'anchor' },
+        { label: 'Crisis Resources', href: '#', type: 'anchor' }
       ]
     },
     {
       label: 'Info for Students',
       href: '#info-students',
+      type: 'anchor',
       submenu: [
-        { label: 'New Students', href: '#' },
-        { label: 'Academic Help', href: '#' },
-        { label: 'Wellness Programs', href: '#' },
-        { label: 'Student FAQ', href: '#' }
+        { label: 'New Students', href: '#', type: 'anchor' },
+        { label: 'Academic Help', href: '#', type: 'anchor' },
+        { label: 'Wellness Programs', href: '#', type: 'anchor' },
+        { label: 'Student FAQ', href: '#', type: 'anchor' }
       ]
     },
     {
       label: 'SelfHelp',
       href: '#selfhelp',
+      type: 'anchor',
       submenu: [
-        { label: 'Self Assessment Tools', href: '#' },
-        { label: 'Wellness Articles', href: '#' },
-        { label: 'Meditation Videos', href: '#' },
-        { label: 'Resource Library', href: '#' }
+        { label: 'Self Assessment Tools', href: '#', type: 'anchor' },
+        { label: 'Wellness Articles', href: '#', type: 'anchor' },
+        { label: 'Meditation Videos', href: '#', type: 'anchor' },
+        { label: 'Resource Library', href: '#', type: 'anchor' }
       ]
     },
-    { label: 'Emergency', href: '#emergency' }
+    { label: 'Emergency', href: '#emergency', type: 'anchor' }
   ]
+
+  // When logged in, hide the full navbar and show a slim bar with the
+  // profile icon (dropdown handles profile info, change password, logout).
+  if (user) {
+    return (
+      <header className="logged-in-bar">
+        <div className="logged-in-bar-content">
+          <Link to="/" className="logged-in-bar-brand">
+            <h2>🧠 MHC</h2>
+          </Link>
+          <UserMenu />
+        </div>
+      </header>
+    )
+  }
+
+  const renderLink = (item) => {
+    if (item.type === 'link') {
+      return (
+        <Link to={item.href} onClick={closeMenu}>
+          {item.label}
+        </Link>
+      )
+    } else if (item.type === 'noaction') {
+      return (
+        <a href="#" onClick={(e) => e.preventDefault()}>
+          {item.label}
+        </a>
+      )
+    } else {
+      return (
+        <a href={item.href} onClick={() => closeMenu()}>
+          {item.label}
+        </a>
+      )
+    }
+  }
 
   return (
     <header className="header">
       <nav className="navbar">
         <div className="container navbar-content">
-          {/* Logo */}
-          <a href="#home" className="navbar-brand">
+          <Link to="/" className="navbar-brand">
             <h2>🧠 MHC</h2>
-          </a>
-          
-          {/* Menu Toggle Button */}
-          <button 
-            className="menu-toggle" 
-            onClick={toggleMenu}
+          </Link>
+
+          <button
+            className="menu-toggle"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
 
-          {/* Navigation Links */}
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
             {navigationLinks.map((link) => (
-              <li 
-                key={link.label} 
+              <li
+                key={link.label}
                 className={`nav-item ${link.submenu ? 'has-dropdown' : ''}`}
-                onMouseEnter={() => link.submenu && setActiveDropdown(link.label)}
-                onMouseLeave={() => link.submenu && setActiveDropdown(null)}
+                onMouseEnter={() =>
+                  link.submenu && setActiveDropdown(link.label)
+                }
+                onMouseLeave={() =>
+                  link.submenu && setActiveDropdown(null)
+                }
               >
-                <a 
-                  href={link.href} 
-                  onClick={() => {
-                    if (link.submenu) {
-                      toggleDropdown(link.label)
-                    } else {
-                      closeMenu()
-                    }
-                  }}
-                >
-                  {link.label}
-                </a>
+                {renderLink(link)}
 
-                {/* Dropdown Menu */}
                 {link.submenu && (
-                  <ul className={`dropdown-menu ${activeDropdown === link.label ? 'active' : ''}`}>
+                  <ul
+                    className={`dropdown-menu ${
+                      activeDropdown === link.label ? 'active' : ''
+                    }`}
+                  >
                     {link.submenu.map((item) => (
-                      <li key={item.label}>
-                        <a href={item.href} onClick={closeMenu}>
-                          {item.label}
-                        </a>
-                      </li>
+                      <li key={item.label}>{renderLink(item)}</li>
                     ))}
                   </ul>
                 )}
               </li>
             ))}
 
-            {/* Social Media - Mobile Menu */}
             <li className="social-menu-mobile-divider"></li>
             <li className="social-menu-mobile-wrapper">
               <span className="social-menu-title">Follow Us</span>
               <div className="social-menu-mobile">
                 {socialMedia.map((social) => (
-                  <a 
+                  <a
                     key={social.name}
-                    href={social.url} 
-                    target="_blank" 
+                    href={social.url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="social-link-mobile"
                     onClick={closeMenu}
@@ -186,10 +214,9 @@ const Header = () => {
             </li>
           </ul>
 
-          {/* Social Media - Desktop Icons with Tooltips */}
           <div className="nav-icons">
             {socialMedia.map((social) => (
-              <a 
+              <a
                 key={social.name}
                 href={social.url}
                 target="_blank"

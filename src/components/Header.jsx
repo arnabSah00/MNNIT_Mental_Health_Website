@@ -222,7 +222,7 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon-desktop"
-                title={social.tooltip}
+                // title={social.tooltip}
               >
                 <span className="icon-emoji">{social.icon}</span>
                 <span className="tooltip-text">{social.tooltip}</span>

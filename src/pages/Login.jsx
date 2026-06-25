@@ -44,7 +44,7 @@ const Login = () => {
           [USER_TYPES.DEAN]: ROUTES.DEAN_DASHBOARD
         }
         
-        navigate(dashboardRoutes[userType])
+        navigate(dashboardRoutes[userType], { replace: true })
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.')

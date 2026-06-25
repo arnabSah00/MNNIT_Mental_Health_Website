@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import useBackLogout from '../../hooks/useBackLogout'
 import '../../styles/Auth.css'
 
 const DeanDashboard = () => {
   const { user } = useAuth()
+  useBackLogout()
 
   const stats = [
     { label: 'Total Requests', value: '0', icon: '📊' },

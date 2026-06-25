@@ -8,7 +8,7 @@ const Hero = () => {
         <div className="hero-text">
           <h1>Your Mental Health Matters</h1>
           <p>
-            Comprehensive mental health support and counseling services for IIT Kanpur students.
+            Comprehensive mental health support and counseling services for MNNIT Allahabad students.
             We're here to help you navigate challenges and thrive.
           </p>
           <div className="hero-buttons">

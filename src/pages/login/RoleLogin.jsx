@@ -55,7 +55,7 @@ const RoleLogin = ({ role }) => {
         userType: config.userType
       }
       login(fakeUser, 'dev-token')
-      navigate(config.dashboard)
+      navigate(config.dashboard, { replace: true })
       setLoading(false)
       return
     }
@@ -67,7 +67,7 @@ const RoleLogin = ({ role }) => {
       if (response.success) {
         const userData = { ...response.user, userType: config.userType }
         login(userData, response.token)
-        navigate(config.dashboard)
+        navigate(config.dashboard, { replace: true })
       } else {
         setError(response.message || 'Login failed. Please try again.')
       }

@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import Hero from './components/Hero'
 import Services from './components/Services'
 import ProtectedRoute from './components/ProtectedRoute'
+import PublicOnlyRoute from './components/PublicOnlyRoute'
 import Login from './pages/Login'
 import StudentLogin from './pages/login/StudentLogin'
 import CounsellorLogin from './pages/login/CounsellorLogin'
@@ -37,13 +38,13 @@ function App() {
                   </>
                 }
               />
-              <Route path="/login" element={<Login />} />
-              <Route path="/login/student" element={<StudentLogin />} />
-              <Route path="/login/counsellor" element={<CounsellorLogin />} />
-              <Route path="/login/administrator" element={<AdministratorLogin />} />
-              <Route path="/login/dean" element={<DeanLogin />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/login" element={<PublicOnlyRoute element={<Login />} />} />
+              <Route path="/login/student" element={<PublicOnlyRoute element={<StudentLogin />} />} />
+              <Route path="/login/counsellor" element={<PublicOnlyRoute element={<CounsellorLogin />} />} />
+              <Route path="/login/administrator" element={<PublicOnlyRoute element={<AdministratorLogin />} />} />
+              <Route path="/login/dean" element={<PublicOnlyRoute element={<DeanLogin />} />} />
+              <Route path="/forgot-password" element={<PublicOnlyRoute element={<ForgotPassword />} />} />
+              <Route path="/reset-password" element={<PublicOnlyRoute element={<ResetPassword />} />} />
               <Route path="/tele_manas" element={<TeleManasPage />} />
 
               {/* Protected Student Routes */}

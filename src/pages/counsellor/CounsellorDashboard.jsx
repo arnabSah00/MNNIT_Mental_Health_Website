@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import useBackLogout from '../../hooks/useBackLogout'
 import '../../styles/Auth.css'
 
 const CounsellorDashboard = () => {
   const { user } = useAuth()
+  useBackLogout()
   const [activeTab, setActiveTab] = useState('pending')
 
   return (

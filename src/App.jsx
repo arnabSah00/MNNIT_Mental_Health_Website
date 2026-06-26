@@ -12,6 +12,8 @@ import CounsellorLogin from './pages/login/CounsellorLogin'
 import AdministratorLogin from './pages/login/AdministratorLogin'
 import DeanLogin from './pages/login/DeanLogin'
 import TeleManasPage from './pages/TeleManasPage'
+import EventsPage from './pages/EventsPage'
+import EventDetailPage from './pages/EventDetailPage'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import StudentDashboard from './pages/student/StudentDashboard'
@@ -46,6 +48,8 @@ function App() {
               <Route path="/forgot-password" element={<PublicOnlyRoute element={<ForgotPassword />} />} />
               <Route path="/reset-password" element={<PublicOnlyRoute element={<ResetPassword />} />} />
               <Route path="/tele_manas" element={<TeleManasPage />} />
+              <Route path="/event" element={<EventsPage />} />
+              <Route path="/event/:id" element={<EventDetailPage />} />
 
               {/* Protected Student Routes */}
               <Route

@@ -1,24 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Environment variables (NEVER commit these)
+.env
+.env.local
+.env.*.local
+
 # Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
+logs/
+*.log
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Editor / OS
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+Thumbs.db
+
+# Vite cache
+.vite/
+
+# IMPORTANT: do NOT ignore images — they must be committed so the
+# hosted build can bundle them. (No image extensions are listed above,
+# so jpg/png/jpeg in src/assets/ are tracked normally.)

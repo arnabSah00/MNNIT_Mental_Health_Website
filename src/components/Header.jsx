@@ -51,6 +51,7 @@ const Header = () => {
 
   const navigationLinks = [
     { label: 'Home', href: '/', type: 'link' },
+    { label: 'Event', href: '/event', type: 'link' },
     { label: 'Team', href: '#team', type: 'anchor' },
     {
       label: 'Services',
@@ -117,9 +118,7 @@ const Header = () => {
     return (
       <header className="logged-in-bar">
         <div className="logged-in-bar-content">
-          <Link to="/" className="logged-in-bar-brand">
-            <h2>🧠 MHC</h2>
-          </Link>
+            <h2>MHC</h2>
           <UserMenu />
         </div>
       </header>
@@ -152,9 +151,7 @@ const Header = () => {
     <header className="header">
       <nav className="navbar">
         <div className="container navbar-content">
-          <Link to="/" className="navbar-brand">
             <h2>🧠 MHC</h2>
-          </Link>
 
           <button
             className="menu-toggle"

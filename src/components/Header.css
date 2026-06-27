@@ -69,6 +69,7 @@
 
 .nav-links a:hover {
   background: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .dropdown-menu {
@@ -117,6 +118,7 @@
 .dropdown-menu a:hover {
   background: rgba(255, 255, 255, 0.2);
   padding-left: 20px !important;
+  color: white;
 }
 
 .nav-icons {

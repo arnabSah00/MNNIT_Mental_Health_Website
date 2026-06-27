@@ -27,25 +27,25 @@ const Header = () => {
     {
       name: 'Facebook',
       icon: <FaFacebook />,
-      url: 'https://www.facebook.com/CounsellingServiceIitKanpur',
+      url: 'https://www.facebook.com/',
       tooltip: 'Like us on Facebook'
     },
     {
       name: 'Instagram',
       icon: <FaInstagram />,
-      url: 'https://www.instagram.com/counsellingserviceiitk/',
+      url: 'https://www.instagram.com/',
       tooltip: 'Follow us on Instagram'
     },
     {
       name: 'Youtube',
       icon: <FaYoutube />,
-      url: 'https://www.youtube.com/channel/UCRwww9qZ5Ec5jLIiBkaoXvA',
+      url: 'https://www.youtube.com/@MHWB-SH',
       tooltip: 'Subscribe us on Youtube'
     },
     {
       name: 'Medium',
       icon: <FaMedium />,
-      url: 'https://medium.com/@csiitk',
+      url: 'https://medium.com/',
       tooltip: 'Follow us on Medium'
     }
   ]

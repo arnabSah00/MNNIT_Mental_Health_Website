@@ -52,7 +52,6 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <p>&copy; {currentYear} Mental Health Center, MNNIT Allahabad. All rights reserved.</p>
-        <p>Designed & Developed with ❤️</p>
       </div>
     </footer>
   )

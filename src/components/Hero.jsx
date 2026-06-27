@@ -22,7 +22,7 @@ const Hero = () => {
         </div>
         <div className="hero-image">
           <div className="hero-illustration">
-            🧠💙
+            
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa'
 import UserMenu from './UserMenu'
 import './Header.css'
+import mnnitLogo from '../assets/MNNIT_logo.png'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -118,7 +119,9 @@ const Header = () => {
     return (
       <header className="logged-in-bar">
         <div className="logged-in-bar-content">
-            <h2>MHC</h2>
+          <div className="logged-in-bar-brand">
+            <img src={mnnitLogo} alt="MNNIT" className="brand-logo" />
+          </div>
           <UserMenu />
         </div>
       </header>
@@ -151,7 +154,9 @@ const Header = () => {
     <header className="header">
       <nav className="navbar">
         <div className="container navbar-content">
-            <h2>🧠 MHC</h2>
+          <div className="navbar-brand">
+            <img src={mnnitLogo} alt="MNNIT" className="brand-logo" />
+          </div>
 
           <button
             className="menu-toggle"

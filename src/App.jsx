@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Hero from './components/Hero'
-import Services from './components/Services'
+// import Hero from './components/Hero'
+// import Services from './components/Services'
 import ProtectedRoute from './components/ProtectedRoute'
 import PublicOnlyRoute from './components/PublicOnlyRoute'
 import Login from './pages/Login'
@@ -20,6 +20,17 @@ import StudentDashboard from './pages/student/StudentDashboard'
 import CounsellorDashboard from './pages/counsellor/CounsellorDashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import DeanDashboard from './pages/dean/DeanDashboard'
+import TeamPage from './pages/TeamPage'
+import EmergencyPage from './pages/EmergencyPage'
+import FAQPage from './pages/FAQPage'
+
+import HomeHero from './components/home/HomeHero'
+import NewsTicker from './components/home/NewsTicker'
+import Announcements from './components/home/Announcements'
+import ResourceCards from './components/home/ResourceCards'
+import Testimonials from './components/home/Testimonials'
+import Gallery from './components/home/Gallery'
+
 import './styles/App.css'
 
 function App() {
@@ -35,8 +46,12 @@ function App() {
                 path="/"
                 element={
                   <>
-                    <Hero />
-                    <Services />
+                    <HomeHero />
+                    <NewsTicker />
+                    <ResourceCards />
+                    <Announcements />
+                    <Testimonials />
+                    <Gallery />
                   </>
                 }
               />
@@ -50,6 +65,9 @@ function App() {
               <Route path="/tele_manas" element={<TeleManasPage />} />
               <Route path="/event" element={<EventsPage />} />
               <Route path="/event/:id" element={<EventDetailPage />} />
+              <Route path="/team" element={<TeamPage />} />
+              <Route path="/emergency" element={<EmergencyPage />} />
+              <Route path="/faqs" element={<FAQPage />} />
 
               {/* Protected Student Routes */}
               <Route

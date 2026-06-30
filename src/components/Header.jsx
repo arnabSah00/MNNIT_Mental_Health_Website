@@ -53,7 +53,7 @@ const Header = () => {
   const navigationLinks = [
     { label: 'Home', href: '/', type: 'link' },
     { label: 'Event', href: '/event', type: 'link' },
-    { label: 'Team', href: '#team', type: 'anchor' },
+    { label: 'Team', href: '/team', type: 'link' },
     {
       label: 'Services',
       href: '#services',
@@ -66,6 +66,23 @@ const Header = () => {
       ]
     },
     {
+      label: 'Resources',
+      href: '#resources',
+      type: 'noaction',
+      submenu: [
+        { label: 'Academic Resources', type: 'header' },
+        { label: 'Information for Students', href: '#', type: 'anchor' },
+        { label: 'Academic Help', href: '#', type: 'anchor' },
+        { label: 'Wellness Programs', href: '#', type: 'anchor' },
+        { label: 'Mental Health Resources', type: 'header' },
+        // { label: 'Self Assessment Tools', href: '#', type: 'anchor' },
+        { label: 'Wellness Articles', href: '#', type: 'anchor' },
+        { label: 'Meditation Videos', href: '#', type: 'anchor' },
+        { label: 'Resource Library', href: '#', type: 'anchor' },
+        { label: 'FAQs', href: '/faqs', type: 'link' },
+      ]
+    },
+    {
       label: 'Appointments',
       href: '#',
       type: 'noaction',
@@ -73,8 +90,7 @@ const Header = () => {
         { label: 'Student', href: '/login/student', type: 'link' },
         { label: 'Counsellor', href: '/login/counsellor', type: 'link' },
         { label: 'Administrator', href: '/login/administrator', type: 'link' },
-        { label: 'Dean, Student Welfare', href: '/login/dean', type: 'link' },
-        { label: 'External 24x7 Counselling by Tele MANAS', href: '/tele_manas', type: 'link' }
+        { label: 'Dean, Student Welfare', href: '/login/dean', type: 'link' }
       ]
     },
     {
@@ -82,39 +98,14 @@ const Header = () => {
       href: '#support',
       type: 'anchor',
       submenu: [
-        { label: 'Emergency Hotline', href: '#', type: 'anchor' },
         { label: 'Peer Support', href: '#', type: 'anchor' },
-        { label: 'Family Counseling', href: '#', type: 'anchor' },
-        { label: 'Crisis Resources', href: '#', type: 'anchor' }
+        { label: 'Crisis Resources', href: '#', type: 'anchor' },
+        { label: 'External 24x7 Counselling by Tele MANAS', href: '/tele_manas', type: 'link' }
       ]
     },
-    {
-      label: 'Info for Students',
-      href: '#info-students',
-      type: 'anchor',
-      submenu: [
-        { label: 'New Students', href: '#', type: 'anchor' },
-        { label: 'Academic Help', href: '#', type: 'anchor' },
-        { label: 'Wellness Programs', href: '#', type: 'anchor' },
-        { label: 'Student FAQ', href: '#', type: 'anchor' }
-      ]
-    },
-    {
-      label: 'SelfHelp',
-      href: '#selfhelp',
-      type: 'anchor',
-      submenu: [
-        { label: 'Self Assessment Tools', href: '#', type: 'anchor' },
-        { label: 'Wellness Articles', href: '#', type: 'anchor' },
-        { label: 'Meditation Videos', href: '#', type: 'anchor' },
-        { label: 'Resource Library', href: '#', type: 'anchor' }
-      ]
-    },
-    { label: 'Emergency', href: '#emergency', type: 'anchor' }
+    { label: 'Emergency', href: '/emergency', type: 'link' }
   ]
 
-  // When logged in, hide the full navbar and show a slim bar with the
-  // profile icon (dropdown handles profile info, change password, logout).
   if (user) {
     return (
       <header className="logged-in-bar">
@@ -129,7 +120,9 @@ const Header = () => {
   }
 
   const renderLink = (item) => {
-    if (item.type === 'link') {
+    if (item.type === 'header') {
+      return <span className="dropdown-section-header">{item.label}</span>
+    } else if (item.type === 'link') {
       return (
         <Link to={item.href} onClick={closeMenu}>
           {item.label}
@@ -224,7 +217,6 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon-desktop"
-                // title={social.tooltip}
               >
                 <span className="icon-emoji">{social.icon}</span>
                 <span className="tooltip-text">{social.tooltip}</span>

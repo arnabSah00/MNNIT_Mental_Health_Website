@@ -106,15 +106,16 @@ export const adminAPI = {
 }
 
 // Dean API
+// Dean API
 export const deanAPI = {
   getDashboardAnalytics: () =>
     apiClient.get('/dean/analytics'),
   getRequestStats: () =>
     apiClient.get('/dean/statistics'),
-  getMonthlyTrends: () =>
-    apiClient.get('/dean/trends'),
+  getTrends: (period = 'month') =>
+    apiClient.get(`/dean/trends?period=${period}`),
   generateReport: (startDate, endDate) =>
-    apiClient.get('/dean/report', { params: { startDate, endDate } })
+    apiClient.get('/dean/report', { params: { startDate, endDate } }),
 }
 
 // Public API

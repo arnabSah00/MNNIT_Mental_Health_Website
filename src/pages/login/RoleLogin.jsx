@@ -105,7 +105,7 @@ const RoleLogin = ({ role }) => {
           <Link to="/">Back to Home</Link>
         </div>
 
-        <div className="role-switch">
+        {/* <div className="role-switch">
           <span>Not a {config.label}?</span>
           <div className="role-switch-links">
             {Object.entries(ROLE_CONFIG)
@@ -114,7 +114,7 @@ const RoleLogin = ({ role }) => {
                 <Link key={key} to={`/login/${key}`}>{c.icon} {c.label}</Link>
               ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

@@ -80,12 +80,12 @@ const Header = () => {
         { label: 'FAQs', href: '/faqs', type: 'link' },
       ]
     },
+    { label: 'Book Appointment', href: '/book-appointment', type: 'link' },
     {
-      label: 'Appointments',
+      label: 'Reports',
       href: '#',
       type: 'noaction',
       submenu: [
-        { label: 'Student', href: '/login/student', type: 'link' },
         { label: 'Counsellor', href: '/login/counsellor', type: 'link' },
         { label: 'Administrator', href: '/login/administrator', type: 'link' },
         { label: 'Dean, Student Welfare', href: '/login/dean', type: 'link' }

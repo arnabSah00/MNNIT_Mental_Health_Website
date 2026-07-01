@@ -2,6 +2,8 @@ export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:50
 
 export const USER_TYPES = {
   STUDENT: 'student',
+  FACULTY: 'faculty',
+  STAFF: 'staff',
   COUNSELLOR: 'counsellor',
   ADMINISTRATOR: 'administrator',
   DEAN: 'dean'
@@ -11,11 +13,29 @@ export const ROLE_CONFIG = {
   student: {
     userType: 'student',
     label: 'Student',
-    icon: '👨‍🎓',
+    icon: '🎓',
     idLabel: 'College Registration Number',
     idPlaceholder: 'e.g. 20BCS001',
     passwordHint: 'Your Date of Birth in DD-MM-YYYY format',
-    dashboard: '/student/dashboard'
+    dashboard: '/appointments/dashboard'
+  },
+  faculty: {
+    userType: 'faculty',
+    label: 'Faculty',
+    icon: '🧑‍🏫',
+    idLabel: 'Official Email ID',
+    idPlaceholder: 'e.g. name@mnnit.ac.in',
+    passwordHint: 'Your Date of Birth in DD-MM-YYYY format',
+    dashboard: '/appointments/dashboard'
+  },
+  staff: {
+    userType: 'staff',
+    label: 'Staff',
+    icon: '🧑‍💼',
+    idLabel: 'Official Email ID',
+    idPlaceholder: 'e.g. name@mnnit.ac.in',
+    passwordHint: 'Your Date of Birth in DD-MM-YYYY format',
+    dashboard: '/appointments/dashboard'
   },
   counsellor: {
     userType: 'counsellor',
@@ -68,13 +88,15 @@ export const TIME_SLOTS = [
 export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
+  BOOKER_LOGIN: '/login/booker',
   STUDENT_LOGIN: '/login/student',
   COUNSELLOR_LOGIN: '/login/counsellor',
   ADMIN_LOGIN: '/login/administrator',
   DEAN_LOGIN: '/login/dean',
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',
-  STUDENT_DASHBOARD: '/student/dashboard',
+  BOOKER_DASHBOARD: '/appointments/dashboard',
+  STUDENT_DASHBOARD: '/appointments/dashboard',
   COUNSELLOR_DASHBOARD: '/counsellor/dashboard',
   ADMIN_DASHBOARD: '/administrator/dashboard',
   DEAN_DASHBOARD: '/dean/dashboard',

@@ -534,3 +534,34 @@
     font-size: 18px;
   }
 }
+
+/* Booker login role toggle (Student / Faculty / Staff) */
+.booker-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.booker-toggle-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border: 2px solid #e0d8f0;
+  background: #faf8ff;
+  color: #6b5b8a;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.booker-toggle-btn:hover {
+  border-color: #8b5fbf;
+  color: #5b3ba6;
+}
+
+.booker-toggle-btn.active {
+  background: linear-gradient(135deg, #5b3ba6 0%, #8b5fbf 100%);
+  color: white;
+  border-color: #5b3ba6;
+}

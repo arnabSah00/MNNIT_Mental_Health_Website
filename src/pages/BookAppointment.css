@@ -1,0 +1,115 @@
+.book-appt-page {
+  min-height: 100vh;
+  background: #fdfcfb;
+  padding-bottom: 70px;
+}
+
+.book-appt-hero {
+  background: linear-gradient(135deg, #5b3ba6 0%, #8b5fbf 100%);
+  color: white;
+  text-align: center;
+  padding: 64px 20px 52px;
+}
+
+.book-appt-eyebrow {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.book-appt-hero h1 {
+  font-size: 40px;
+  margin: 0 0 12px;
+}
+
+.book-appt-subtitle {
+  font-size: 16px;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.book-appt-container {
+  max-width: 900px;
+  margin: 40px auto 0;
+  padding: 0 20px;
+}
+
+.book-appt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.book-appt-card {
+  background: white;
+  border-radius: 16px;
+  padding: 34px 24px;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-top: 4px solid #8b5fbf;
+}
+
+.book-appt-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(91, 59, 166, 0.18);
+}
+
+.book-appt-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5b3ba6 0%, #8b5fbf 100%);
+  color: white;
+  font-size: 26px;
+  margin-bottom: 18px;
+}
+
+.book-appt-card h3 {
+  font-size: 20px;
+  color: #2c1a4d;
+  margin: 0 0 8px;
+}
+
+.book-appt-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+.book-appt-cta {
+  display: inline-block;
+  background: linear-gradient(135deg, #5b3ba6 0%, #8b5fbf 100%);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 8px;
+}
+
+.book-appt-note {
+  text-align: center;
+  margin-top: 34px;
+  font-size: 14px;
+  color: #777;
+}
+
+.book-appt-note a {
+  color: #5b3ba6;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .book-appt-hero h1 {
+    font-size: 30px;
+  }
+}

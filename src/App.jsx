@@ -11,6 +11,8 @@ import StudentLogin from './pages/login/StudentLogin'
 import CounsellorLogin from './pages/login/CounsellorLogin'
 import AdministratorLogin from './pages/login/AdministratorLogin'
 import DeanLogin from './pages/login/DeanLogin'
+import BookerLogin from './pages/login/BookerLogin'
+import BookAppointment from './pages/BookAppointment'
 import TeleManasPage from './pages/TeleManasPage'
 import EventsPage from './pages/EventsPage'
 import EventDetailPage from './pages/EventDetailPage'
@@ -66,6 +68,8 @@ function App() {
               <Route path="/login/counsellor" element={<PublicOnlyRoute element={<CounsellorLogin />} />} />
               <Route path="/login/administrator" element={<PublicOnlyRoute element={<AdministratorLogin />} />} />
               <Route path="/login/dean" element={<PublicOnlyRoute element={<DeanLogin />} />} />
+              <Route path="/login/booker" element={<PublicOnlyRoute element={<BookerLogin />} />} />
+              <Route path="/book-appointment" element={<BookAppointment />} />
               <Route path="/forgot-password" element={<PublicOnlyRoute element={<ForgotPassword />} />} />
               <Route path="/reset-password" element={<PublicOnlyRoute element={<ResetPassword />} />} />
               <Route path="/tele_manas" element={<TeleManasPage />} />
@@ -84,11 +88,11 @@ function App() {
 
               {/* Protected Student Routes */}
               <Route
-                path="/student/dashboard"
+                path="/appointments/dashboard"
                 element={
                   <ProtectedRoute
                     element={<StudentDashboard />}
-                    allowedRoles={['student']}
+                    allowedRoles={['student', 'faculty', 'staff']}
                   />
                 }
               />

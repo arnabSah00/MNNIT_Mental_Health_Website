@@ -21,7 +21,7 @@ const HomeHero = () => {
           In case of any emergency, please reach the Health Centre for assistance
         </p>
         <div className="home-hero-buttons">
-          <Link to="/login/student" className="home-btn-primary">
+          <Link to="/book-appointment" className="home-btn-primary">
             Book Appointment
           </Link>
           <Link to="/faqs" className="home-btn-outline">

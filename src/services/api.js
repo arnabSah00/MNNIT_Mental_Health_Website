@@ -57,6 +57,22 @@ export const authAPI = {
     apiClient.post('/auth/refresh-token')
 }
 
+// Booker API (shared by student / faculty / staff)
+// The backend can route these to a generic appointments endpoint later.
+// For now it mirrors the student endpoints so the existing dashboard works.
+export const bookerAPI = {
+  getProfile: () =>
+    apiClient.get('/appointments/profile'),
+  bookAppointment: (data) =>
+    apiClient.post('/appointments', data),
+  getAppointments: () =>
+    apiClient.get('/appointments'),
+  getAppointmentById: (id) =>
+    apiClient.get(`/appointments/${id}`),
+  cancelAppointment: (id) =>
+    apiClient.put(`/appointments/${id}/cancel`)
+}
+
 // Student API
 export const studentAPI = {
   getProfile: () =>

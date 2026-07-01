@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { studentAPI } from '../../services/api'
+import { ROLE_CONFIG } from '../../constants/index'
+import { bookerAPI } from '../../services/api'
 import useBackLogout from '../../hooks/useBackLogout'
 import '../../styles/Auth.css'
 
@@ -15,6 +16,7 @@ const TIME_SLOTS = ['09:00 AM','10:00 AM','11:00 AM','01:00 PM','02:00 PM','03:0
 
 const StudentDashboard = () => {
   const { user, logout } = useAuth()
+  const roleLabel = ROLE_CONFIG[user?.userType]?.label || 'Appointments'
   useBackLogout()
 
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -31,7 +33,7 @@ const StudentDashboard = () => {
   const fetchAppointments = async () => {
     setLoading(true)
     try {
-      const res = await studentAPI.getAppointments()
+      const res = await bookerAPI.getAppointments()
       setAppointments(res.data || [])
     } catch {
       setMsg({ type: 'error', text: 'Failed to load appointments.' })
@@ -51,7 +53,7 @@ const StudentDashboard = () => {
     }
     setBookLoading(true)
     try {
-      await studentAPI.bookAppointment({ appointment_date: date, time_slot: timeSlot, description })
+      await bookerAPI.bookAppointment({ appointment_date: date, time_slot: timeSlot, description })
       setMsg({ type: 'success', text: '✅ Appointment booked successfully! A counsellor will review it.' })
       setDate(''); setTimeSlot(''); setDescription('')
       fetchAppointments()
@@ -66,7 +68,7 @@ const StudentDashboard = () => {
   const handleCancel = async (id) => {
     if (!window.confirm('Cancel this appointment?')) return
     try {
-      await studentAPI.cancelAppointment(id)
+      await bookerAPI.cancelAppointment(id)
       setMsg({ type: 'success', text: 'Appointment cancelled.' })
       fetchAppointments()
     } catch {
@@ -84,7 +86,7 @@ const StudentDashboard = () => {
       <div className="container">
         <div className="dashboard-header" style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
           <div>
-            <h1>👨‍🎓 Student Dashboard</h1>
+            <h1>{roleLabel} Dashboard</h1>
             <p>Welcome, <strong>{user?.name}</strong> &nbsp;|&nbsp; ID: {user?.id || user?.registration_number}</p>
           </div>
           <button className="btn btn-danger" onClick={logout}>🚪 Logout</button>

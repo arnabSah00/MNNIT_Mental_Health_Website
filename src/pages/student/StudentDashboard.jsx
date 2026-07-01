@@ -29,6 +29,7 @@ const StudentDashboard = () => {
   const [date, setDate] = useState('')
   const [timeSlot, setTimeSlot] = useState('')
   const [description, setDescription] = useState('')
+  const [advice, setAdvice] = useState(null)
 
   const fetchAppointments = async () => {
     setLoading(true)
@@ -201,8 +202,8 @@ const StudentDashboard = () => {
                             {apt.status === 'PENDING' && (
                               <button className="btn btn-danger" style={{ padding:'4px 10px', fontSize:'0.82rem' }} onClick={() => handleCancel(apt.request_id)}>Cancel</button>
                             )}
-                            {apt.status === 'COMPLETED' && apt.action_performed && (
-                              <span style={{ color:'#27ae60', fontSize:'0.82rem' }}>✔ Resolved</span>
+                            {(apt.action_performed || apt.prescription) && (
+                              <button className="btn btn-primary" style={{ padding:'4px 10px', fontSize:'0.82rem' }} onClick={() => setAdvice(apt)}>View Advice</button>
                             )}
                           </td>
                         </tr>
@@ -212,6 +213,40 @@ const StudentDashboard = () => {
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {advice && (
+          <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:1000 }} onClick={() => setAdvice(null)}>
+            <div style={{ background:'white', borderRadius:'14px', padding:'28px', width:'460px', maxWidth:'92vw', boxShadow:'0 8px 32px rgba(0,0,0,0.2)' }} onClick={e => e.stopPropagation()}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                <h3 style={{ margin:0 }}>Counsellor's Advice</h3>
+                <button onClick={() => setAdvice(null)} style={{ background:'none', border:'none', fontSize:'1.3rem', cursor:'pointer', color:'#888' }}>x</button>
+              </div>
+              <p style={{ color:'#666', fontSize:'0.88rem', margin:'6px 0 16px' }}>
+                {new Date(advice.appointment_date).toLocaleDateString('en-IN')} &nbsp;|&nbsp; {advice.time_slot}
+                {advice.counsellor_name ? ' | ' + advice.counsellor_name : ''}
+              </p>
+
+              <div style={{ marginBottom:'14px' }}>
+                <strong>Session Notes</strong>
+                <p style={{ margin:'4px 0', color:'#444', whiteSpace:'pre-wrap' }}>{advice.action_performed || 'No notes yet.'}</p>
+              </div>
+
+              <div style={{ marginBottom:'14px' }}>
+                <strong>Prescription / Advice</strong>
+                <p style={{ margin:'4px 0', color:'#444', whiteSpace:'pre-wrap' }}>{advice.prescription || 'None provided.'}</p>
+              </div>
+
+              {advice.resolution && (
+                <div style={{ marginBottom:'8px' }}>
+                  <strong>Resolution</strong>
+                  <p style={{ margin:'4px 0', color:'#444' }}>{advice.resolution}</p>
+                </div>
+              )}
+
+              <button className="btn btn-secondary" style={{ marginTop:'8px' }} onClick={() => setAdvice(null)}>Close</button>
+            </div>
           </div>
         )}
       </div>

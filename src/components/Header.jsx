@@ -62,7 +62,7 @@ const Header = () => {
         { label: 'Individual Counselling', href: '/individual-counselling', type: 'link' },
         { label: 'De-addiction Clinic', href: '/de-addiction', type: 'link' },
         { label: 'Events & Workshops', href: '/event', type: 'link' },
-        { label: 'External 24×7 Counselling', href: '/tele_manas ', type: 'link' }
+        { label: 'External 24x7 Counselling', href: '/tele_manas', type: 'link' }
       ]
     },
     {

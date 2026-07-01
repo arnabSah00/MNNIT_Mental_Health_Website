@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import {
   LineChart, Line,
   BarChart, Bar, Cell,
+  PieChart, Pie,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer,
 } from 'recharts'
@@ -11,9 +12,9 @@ import useBackLogout from '../../hooks/useBackLogout'
 import '../../styles/Auth.css'
 
 const PERIOD_OPTIONS = [
-  { value: 'week',  label: 'Weekly  (last 12 weeks)'  },
+  { value: 'week',  label: 'Weekly (last 12 weeks)'  },
   { value: 'month', label: 'Monthly (last 12 months)' },
-  { value: 'year',  label: 'Yearly  (last 5 years)'   },
+  { value: 'year',  label: 'Yearly (last 5 years)'   },
 ]
 
 const STATUS_COLORS = {
@@ -23,15 +24,26 @@ const STATUS_COLORS = {
   REJECTED:  '#e74c3c',
 }
 
-const STAT_BARS = [
-  { key: 'totalRequests',     label: 'Total Requests', color: '#5b3ba6' },
-  { key: 'pendingRequests',   label: 'Pending',        color: '#f39c12' },
-  { key: 'approvedRequests',  label: 'Approved',       color: '#3498db' },
-  { key: 'completedRequests', label: 'Completed',      color: '#27ae60' },
-  { key: 'rejectedRequests',  label: 'Rejected',       color: '#e74c3c' },
-  { key: 'totalStudents',     label: 'Students',       color: '#16a085' },
-  { key: 'totalCounsellors',  label: 'Counsellors',    color: '#8e44ad' },
-]
+const STATUS_BADGE = {
+  PENDING:   { color:'#f39c12', label:'Pending' },
+  APPROVED:  { color:'#3498db', label:'Approved' },
+  COMPLETED: { color:'#27ae60', label:'Completed' },
+  REJECTED:  { color:'#e74c3c', label:'Rejected' },
+}
+
+const TYPE_BADGE = {
+  student: { color:'#5b3ba6', label:'Student' },
+  faculty: { color:'#0d7a5f', label:'Faculty' },
+  staff:   { color:'#b8860b', label:'Staff' },
+}
+
+const RESOLUTION_LABEL = {
+  RESOLVED:  'Resolved',
+  FOLLOW_UP: 'Follow-Up Required',
+  REFERRED:  'Referred to Specialist',
+}
+
+const BRANCH_COLORS = ['#5b3ba6','#8b5fbf','#3498db','#16a085','#f39c12','#e74c3c','#27ae60','#8e44ad','#d35400','#2c3e50']
 
 const DeanDashboard = () => {
   const { user, logout } = useAuth()
@@ -45,7 +57,14 @@ const DeanDashboard = () => {
   const [loading, setLoading]   = useState(true)
   const [loadingT, setLoadingT] = useState(false)
 
-  // ── Initial load: stats + analytics ──────────────────────────────────────
+  // Appointments table
+  const [appointments, setAppointments] = useState([])
+  const [loadingA, setLoadingA] = useState(false)
+  const [search, setSearch] = useState('')
+  const [typeFilter, setTypeFilter] = useState('all')
+  const [statusFilter, setStatusFilter] = useState('')
+  const [details, setDetails] = useState(null)
+
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true)
@@ -56,198 +75,311 @@ const DeanDashboard = () => {
         ])
         setStats(statsRes.data)
         setByBranch(analyticsRes.data?.byBranch || [])
-        setByStatus(analyticsRes.data?.byStatus  || [])
+        setByStatus(analyticsRes.data?.byStatus || [])
       } catch {}
       finally { setLoading(false) }
     }
     fetchAll()
+    fetchAppointments()
   }, [])
 
-  // ── Trend fetch — re-runs whenever period changes ─────────────────────────
+  const fetchAppointments = async () => {
+    setLoadingA(true)
+    try {
+      const res = await deanAPI.getAllAppointments()
+      setAppointments(res.data || [])
+    } catch {}
+    finally { setLoadingA(false) }
+  }
+
   const fetchTrends = useCallback(async () => {
     setLoadingT(true)
     try {
       const res = await deanAPI.getTrends(period)
-      setTrends(
-        (res.data || []).map(d => ({ ...d, count: parseInt(d.count) }))
-      )
+      setTrends((res.data || []).map(d => ({ ...d, count: parseInt(d.count) })))
     } catch {}
     finally { setLoadingT(false) }
   }, [period])
 
   useEffect(() => { fetchTrends() }, [fetchTrends])
 
-  // ── Derived values ────────────────────────────────────────────────────────
   const completionRate = stats && stats.totalRequests > 0
     ? Math.round((stats.completedRequests / stats.totalRequests) * 100)
     : 0
 
-  const barData = STAT_BARS.map(({ key, label }) => ({
-    name: label,
-    value: stats?.[key] ?? 0,
-  }))
+  const branchData = useMemo(() => {
+    const map = {}
+    byBranch.forEach(b => {
+      const name = b.branch || 'Unspecified'
+      if (!map[name]) map[name] = { name, student: 0, faculty: 0, staff: 0 }
+      const t = b.booker_type
+      if (t === 'student' || t === 'faculty' || t === 'staff') {
+        map[name][t] += parseInt(b.count)
+      }
+    })
+    // sort by total desc
+    return Object.values(map).sort((a, b) =>
+      (b.student + b.faculty + b.staff) - (a.student + a.faculty + a.staff)
+    )
+  }, [byBranch])
+  const statusData = useMemo(
+    () => byStatus.map(s => ({ name: s.status, value: parseInt(s.count) })),
+    [byStatus]
+  )
+
+  const filtered = useMemo(() => {
+    return appointments.filter(a => {
+      const st = a.request_status || a.status
+      const matchType = typeFilter === 'all' || a.booker_type === typeFilter
+      const matchStatus = !statusFilter || st === statusFilter
+      const q = search.trim().toLowerCase()
+      const matchSearch = !q ||
+        (a.booker_name && a.booker_name.toLowerCase().includes(q)) ||
+        (a.registration_number && a.registration_number.toLowerCase().includes(q)) ||
+        (a.booker_email && a.booker_email.toLowerCase().includes(q))
+      return matchType && matchStatus && matchSearch
+    })
+  }, [appointments, search, typeFilter, statusFilter])
+
+  const STAT_CARDS = [
+    { label:'Total Requests',    value: stats?.totalRequests     || 0, color:'#5b3ba6' },
+    { label:'Pending',           value: stats?.pendingRequests   || 0, color:'#f39c12' },
+    { label:'Approved',          value: stats?.approvedRequests  || 0, color:'#3498db' },
+    { label:'Completed',         value: stats?.completedRequests || 0, color:'#27ae60' },
+    { label:'Completion Rate',   value: completionRate + '%',          color:'#16a085' },
+    { label:'Total Students',    value: stats?.totalStudents     || 0, color:'#2980b9' },
+    { label:'Total Counsellors', value: stats?.totalCounsellors  || 0, color:'#8e44ad' },
+  ]
 
   return (
     <div className="dashboard-container">
       <div className="container">
 
         {/* Header */}
-        <div className="dashboard-header" style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div className="dashboard-header" style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'8px' }}>
           <div>
-            <h1>👔 Dean Dashboard</h1>
-            <p>Welcome, <strong>{user?.name}</strong> — Student Welfare Overview</p>
+            <h1 style={{ margin:0 }}>Dean Dashboard</h1>
+            <p style={{ margin:'4px 0 0', color:'#666' }}>Welcome, <strong>{user?.name}</strong> - Student Welfare Overview</p>
           </div>
-          <button className="btn btn-danger" onClick={logout}>🚪 Logout</button>
+          <button className="btn btn-danger" onClick={logout}>Logout</button>
         </div>
 
         {loading ? (
-          <p style={{ textAlign:'center', padding:'60px', color:'#888', fontSize:'1.2rem' }}>
-            Loading analytics...
-          </p>
+          <p style={{ textAlign:'center', padding:'60px', color:'#888', fontSize:'1.2rem' }}>Loading analytics...</p>
         ) : (
           <>
-            {/* ── Stat Cards ──────────────────────────────────────────────── */}
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(170px,1fr))', gap:'16px', marginBottom:'28px' }}>
-              {[
-                { label:'Total Requests',    value: stats?.totalRequests     || 0, color:'#5b3ba6', icon:'📁' },
-                { label:'Pending',           value: stats?.pendingRequests   || 0, color:'#f39c12', icon:'⏳' },
-                { label:'Approved',          value: stats?.approvedRequests  || 0, color:'#3498db', icon:'✅' },
-                { label:'Completed',         value: stats?.completedRequests || 0, color:'#27ae60', icon:'🟢' },
-                { label:'Completion Rate',   value: `${completionRate}%`,         color:'#5b3ba6', icon:'📈' },
-                { label:'Total Students',    value: stats?.totalStudents     || 0, color:'#16a085', icon:'👨‍🎓' },
-                { label:'Total Counsellors', value: stats?.totalCounsellors  || 0, color:'#8e44ad', icon:'👨‍⚕️' },
-              ].map(c => (
-                <div key={c.label} style={{ background:'white', borderRadius:'12px', padding:'20px', textAlign:'center', boxShadow:'0 2px 8px rgba(0,0,0,0.08)', borderTop:`4px solid ${c.color}` }}>
-                  <div style={{ fontSize:'1.8rem' }}>{c.icon}</div>
-                  <div style={{ fontSize:'2rem', fontWeight:'bold', color:c.color }}>{c.value}</div>
-                  <div style={{ color:'#666', fontSize:'0.85rem', marginTop:'4px' }}>{c.label}</div>
+            {/* Stat cards */}
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))', gap:'14px', margin:'20px 0 28px' }}>
+              {STAT_CARDS.map(c => (
+                <div key={c.label} style={{ background:'white', borderRadius:'12px', padding:'20px 16px', textAlign:'center', boxShadow:'0 2px 10px rgba(0,0,0,0.06)', borderTop:'4px solid ' + c.color }}>
+                  <div style={{ fontSize:'2rem', fontWeight:'800', color:c.color, lineHeight:1 }}>{c.value}</div>
+                  <div style={{ color:'#666', fontSize:'0.82rem', marginTop:'6px' }}>{c.label}</div>
                 </div>
               ))}
             </div>
 
-            {/* ── Status + Branch tables ───────────────────────────────────── */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'20px', marginBottom:'20px' }}>
-
-              {/* Requests by Status */}
-              <div style={{ background:'white', borderRadius:'12px', padding:'24px', boxShadow:'0 2px 8px rgba(0,0,0,0.08)' }}>
-                <h3 style={{ marginBottom:'16px' }}>📊 Requests by Status</h3>
-                {byStatus.length === 0 ? <p style={{ color:'#888' }}>No data yet.</p> : (
-                  <table className="table">
-                    <thead><tr><th>Status</th><th>Count</th><th>Share</th></tr></thead>
-                    <tbody>
-                      {byStatus.map(row => {
-                        const pct = stats?.totalRequests > 0
-                          ? Math.round((parseInt(row.count) / stats.totalRequests) * 100)
-                          : 0
-                        return (
-                          <tr key={row.status}>
-                            <td>
-                              <span style={{ background: STATUS_COLORS[row.status] || '#999', color:'white', padding:'2px 8px', borderRadius:'8px', fontSize:'0.8rem' }}>
-                                {row.status}
-                              </span>
-                            </td>
-                            <td><strong>{row.count}</strong></td>
-                            <td>
-                              <div style={{ background:'#eee', borderRadius:'6px', height:'10px', width:'100%' }}>
-                                <div style={{ background: STATUS_COLORS[row.status] || '#999', width:`${pct}%`, height:'100%', borderRadius:'6px' }} />
-                              </div>
-                              <span style={{ fontSize:'0.75rem', color:'#666' }}>{pct}%</span>
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-
-              {/* Requests by Branch */}
-              <div style={{ background:'white', borderRadius:'12px', padding:'24px', boxShadow:'0 2px 8px rgba(0,0,0,0.08)' }}>
-                <h3 style={{ marginBottom:'16px' }}>🏫 Requests by Branch</h3>
-                {byBranch.length === 0 ? <p style={{ color:'#888' }}>No data yet.</p> : (
-                  <table className="table">
-                    <thead><tr><th>Branch</th><th>Count</th></tr></thead>
-                    <tbody>
-                      {byBranch.map(row => (
-                        <tr key={row.branch}>
-                          <td>{row.branch}</td>
-                          <td><strong>{row.count}</strong></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            </div>
-
-            {/* ── Line Chart — Trends with period dropdown ─────────────────── */}
-            <div style={{ background:'white', borderRadius:'12px', padding:'24px', boxShadow:'0 2px 8px rgba(0,0,0,0.08)', marginBottom:'20px' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px', flexWrap:'wrap', gap:'12px' }}>
-                <h3 style={{ margin:0 }}>📅 Request Trends</h3>
-                <select
-                  value={period}
-                  onChange={e => setPeriod(e.target.value)}
-                  style={{ padding:'8px 14px', borderRadius:'8px', border:'1px solid #d1d5db', fontSize:'0.9rem', color:'#374151', background:'#fff', cursor:'pointer', outline:'none' }}
-                >
-                  {PERIOD_OPTIONS.map(opt => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  ))}
+            {/* Trends line chart */}
+            <div style={{ background:'white', borderRadius:'14px', padding:'22px', boxShadow:'0 2px 10px rgba(0,0,0,0.06)', marginBottom:'22px' }}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'10px', marginBottom:'12px' }}>
+                <h2 style={{ margin:0, fontSize:'1.2rem' }}>Appointment Trends</h2>
+                <select value={period} onChange={e => setPeriod(e.target.value)} style={{ padding:'8px 12px', borderRadius:'8px', border:'1px solid #ddd' }}>
+                  {PERIOD_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
               </div>
-
               {loadingT ? (
-                <p style={{ textAlign:'center', color:'#888', padding:'40px 0' }}>Loading trend data...</p>
+                <p style={{ textAlign:'center', padding:'40px', color:'#888' }}>Loading trend...</p>
               ) : trends.length === 0 ? (
-                <p style={{ textAlign:'center', color:'#888', padding:'40px 0' }}>
-                  No trend data available yet. Data will appear as appointments are booked.
-                </p>
+                <p style={{ textAlign:'center', padding:'40px', color:'#888' }}>No trend data for this period.</p>
               ) : (
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={trends} margin={{ top:5, right:30, left:0, bottom:5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <ResponsiveContainer width="100%" height={280}>
+                  <LineChart data={trends} margin={{ top:10, right:20, left:0, bottom:0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
                     <XAxis dataKey="label" tick={{ fontSize:12 }} />
                     <YAxis allowDecimals={false} tick={{ fontSize:12 }} />
-                    <Tooltip
-                      contentStyle={{ borderRadius:'8px', fontSize:'13px' }}
-                      formatter={val => [val, 'Requests']}
-                    />
-                    <Legend />
-                    <Line
-                      type="monotone"
-                      dataKey="count"
-                      name="Requests"
-                      stroke="#5b3ba6"
-                      strokeWidth={2.5}
-                      dot={{ r:4, fill:'#5b3ba6' }}
-                      activeDot={{ r:6 }}
-                    />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="count" stroke="#5b3ba6" strokeWidth={3} dot={{ r:4 }} activeDot={{ r:6 }} name="Appointments" />
                   </LineChart>
                 </ResponsiveContainer>
               )}
             </div>
 
-            {/* ── Bar Chart — Full Statistics ──────────────────────────────── */}
-            <div style={{ background:'white', borderRadius:'12px', padding:'24px', boxShadow:'0 2px 8px rgba(0,0,0,0.08)', marginBottom:'20px' }}>
-              <h3 style={{ marginBottom:'20px' }}>📊 Full Statistics Overview</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={barData} margin={{ top:5, right:30, left:0, bottom:5 }} barCategoryGap="30%">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="name" tick={{ fontSize:11 }} />
-                  <YAxis allowDecimals={false} tick={{ fontSize:12 }} />
-                  <Tooltip
-                    contentStyle={{ borderRadius:'8px', fontSize:'13px' }}
-                    formatter={val => [val, 'Count']}
-                  />
-                  <Bar dataKey="value" name="Count" radius={[6, 6, 0, 0]}>
-                    {barData.map((_, i) => (
-                      <Cell key={i} fill={STAT_BARS[i].color} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            {/* Two charts side by side */}
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(320px,1fr))', gap:'22px', marginBottom:'22px' }}>
+              {/* By status pie */}
+              <div style={{ background:'white', borderRadius:'14px', padding:'22px', boxShadow:'0 2px 10px rgba(0,0,0,0.06)' }}>
+                <h2 style={{ margin:'0 0 12px', fontSize:'1.2rem' }}>By Status</h2>
+                {statusData.length === 0 ? (
+                  <p style={{ textAlign:'center', padding:'40px', color:'#888' }}>No data.</p>
+                ) : (
+                  <ResponsiveContainer width="100%" height={280}>
+                    <PieChart>
+                      <Pie data={statusData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={95} label>
+                        {statusData.map((entry, i) => (
+                          <Cell key={i} fill={STATUS_COLORS[entry.name] || '#999'} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                )}
+              </div>
+
+              {/* By branch bar */}
+              <div style={{ background:'white', borderRadius:'14px', padding:'22px', boxShadow:'0 2px 10px rgba(0,0,0,0.06)' }}>
+                <h2 style={{ margin:'0 0 12px', fontSize:'1.2rem' }}>By Branch / Department</h2>
+                {branchData.length === 0 ? (
+                  <p style={{ textAlign:'center', padding:'40px', color:'#888' }}>No data.</p>
+                ) : (
+                  <ResponsiveContainer width="100%" height={280}>
+                    <BarChart data={branchData} margin={{ top:10, right:10, left:0, bottom:40 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
+                      <XAxis dataKey="name" tick={{ fontSize:11 }} angle={-25} textAnchor="end" interval={0} height={60} />
+                      <YAxis allowDecimals={false} tick={{ fontSize:12 }} />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="student" stackId="a" name="Student" fill="#5b3ba6" radius={[0,0,0,0]} />
+                      <Bar dataKey="faculty" stackId="a" name="Faculty" fill="#0d7a5f" radius={[0,0,0,0]} />
+                      <Bar dataKey="staff" stackId="a" name="Staff" fill="#b8860b" radius={[6,6,0,0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
+              </div>
             </div>
 
+            {/* Appointments table (admin-style, read-only) */}
+            <div style={{ background:'white', borderRadius:'14px', padding:'22px', boxShadow:'0 2px 10px rgba(0,0,0,0.06)' }}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'10px', marginBottom:'16px' }}>
+                <h2 style={{ margin:0, fontSize:'1.2rem' }}>All Appointments ({filtered.length})</h2>
+                <button className="btn btn-secondary" onClick={fetchAppointments} disabled={loadingA}>Refresh</button>
+              </div>
+
+              {/* filters */}
+              <div style={{ display:'flex', gap:'12px', flexWrap:'wrap', marginBottom:'16px' }}>
+                <input
+                  type="text"
+                  placeholder="Search by name, reg no or email..."
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  style={{ flex:1, minWidth:'220px', padding:'9px 12px', borderRadius:'8px', border:'1px solid #ddd' }}
+                />
+                <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} style={{ padding:'9px 12px', borderRadius:'8px', border:'1px solid #ddd' }}>
+                  <option value="all">All Types</option>
+                  <option value="student">Student</option>
+                  <option value="faculty">Faculty</option>
+                  <option value="staff">Staff</option>
+                </select>
+                <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} style={{ padding:'9px 12px', borderRadius:'8px', border:'1px solid #ddd' }}>
+                  <option value="">All Status</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="COMPLETED">Completed</option>
+                  <option value="REJECTED">Rejected</option>
+                </select>
+              </div>
+
+              {loadingA ? (
+                <p style={{ textAlign:'center', padding:'40px', color:'#888' }}>Loading...</p>
+              ) : filtered.length === 0 ? (
+                <p style={{ textAlign:'center', padding:'40px', color:'#888' }}>No records found.</p>
+              ) : (
+                <div className="table-container">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Reg No / Email</th>
+                        <th>Branch / Dept</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Counsellor</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filtered.map((apt, i) => {
+                        const st = apt.request_status || apt.status
+                        const badge = STATUS_BADGE[st] || { color:'#999', label: st }
+                        const tb = TYPE_BADGE[apt.booker_type] || { color:'#999', label: apt.booker_type || '-' }
+                        return (
+                          <tr key={apt.request_id}>
+                            <td>{i+1}</td>
+                            <td>
+                              <button onClick={() => setDetails(apt)} style={{ background:'none', border:'none', padding:0, cursor:'pointer', color:'#5b3ba6', fontWeight:600, textAlign:'left' }} title="View full details">
+                                {apt.booker_name}
+                              </button>
+                            </td>
+                            <td><span style={{ background:tb.color, color:'white', padding:'2px 9px', borderRadius:'10px', fontSize:'0.72rem' }}>{tb.label}</span></td>
+                            <td>{apt.registration_number || apt.booker_email}</td>
+                            <td>{apt.branch || '-'}</td>
+                            <td>{new Date(apt.appointment_date).toLocaleDateString('en-IN')}</td>
+                            <td>{apt.time_slot}</td>
+                            <td>{apt.counsellor_name || '-'}</td>
+                            <td><span style={{ background:badge.color, color:'white', padding:'3px 10px', borderRadius:'10px', fontSize:'0.8rem', fontWeight:600 }}>{badge.label}</span></td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </>
+        )}
+
+        {/* Details slide-over */}
+        {details && (
+          <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', display:'flex', justifyContent:'flex-end', zIndex:1100 }} onClick={() => setDetails(null)}>
+            <div style={{ background:'#faf9fc', width:'560px', maxWidth:'96vw', height:'100%', overflowY:'auto', padding:'28px', boxShadow:'-8px 0 32px rgba(0,0,0,0.2)' }} onClick={e => e.stopPropagation()}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
+                <div>
+                  <h2 style={{ margin:0 }}>{details.booker_name}</h2>
+                  <p style={{ margin:'4px 0', color:'#666', fontSize:'0.9rem' }}>
+                    {(TYPE_BADGE[details.booker_type] || {}).label} &nbsp;|&nbsp; {details.registration_number || details.booker_email}
+                    {details.branch ? ' | ' + details.branch : ''}
+                  </p>
+                </div>
+                <button onClick={() => setDetails(null)} style={{ background:'none', border:'none', fontSize:'1.4rem', cursor:'pointer', color:'#888' }}>x</button>
+              </div>
+
+              <section style={{ background:'white', borderRadius:'10px', padding:'16px', marginTop:'18px', boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h4 style={{ margin:'0 0 8px' }}>Issue / Reason</h4>
+                <p style={{ margin:0, color:'#444', whiteSpace:'pre-wrap' }}>{details.description || 'No description provided.'}</p>
+                <p style={{ margin:'10px 0 0', fontSize:'0.85rem', color:'#777' }}>
+                  Requested: {new Date(details.appointment_date).toLocaleDateString('en-IN')} at {details.time_slot}
+                </p>
+              </section>
+
+              <section style={{ background:'white', borderRadius:'10px', padding:'16px', marginTop:'14px', boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h4 style={{ margin:'0 0 8px' }}>Status</h4>
+                {(() => { const b = STATUS_BADGE[details.request_status || details.status] || { color:'#999', label: details.request_status || details.status }; return (
+                  <span style={{ background:b.color, color:'white', padding:'4px 12px', borderRadius:'12px', fontSize:'0.85rem', fontWeight:600 }}>{b.label}</span>
+                )})()}
+                <p style={{ margin:'10px 0 0', fontSize:'0.9rem', color:'#555' }}>
+                  Counsellor: <strong>{details.counsellor_name || 'Not assigned yet'}</strong>
+                </p>
+              </section>
+
+              <section style={{ background:'white', borderRadius:'10px', padding:'16px', marginTop:'14px', boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h4 style={{ margin:'0 0 8px' }}>Counsellor's Solution</h4>
+                <p style={{ margin:'0 0 8px', color:'#444', whiteSpace:'pre-wrap' }}>
+                  <em>Session Notes:</em> {details.action_performed || 'Not recorded yet.'}
+                </p>
+                <p style={{ margin:'0 0 8px', color:'#444', whiteSpace:'pre-wrap' }}>
+                  <em>Prescription / Advice:</em> {details.prescription || 'None provided.'}
+                </p>
+                {details.resolution && (
+                  <p style={{ margin:0, color:'#444' }}>
+                    <em>Resolution:</em> {RESOLUTION_LABEL[details.resolution] || details.resolution}
+                  </p>
+                )}
+              </section>
+
+              <button className="btn btn-secondary" style={{ marginTop:'16px' }} onClick={() => setDetails(null)}>Close</button>
+            </div>
+          </div>
         )}
       </div>
     </div>

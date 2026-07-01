@@ -11,6 +11,18 @@ const STATUS_BADGE = {
   REJECTED:  { color:'#e74c3c', label:'❌ Rejected' },
 }
 
+const TYPE_BADGE = {
+  student: { color:'#5b3ba6', label:'Student' },
+  faculty: { color:'#0d7a5f', label:'Faculty' },
+  staff:   { color:'#b8860b', label:'Staff' },
+}
+
+const RESOLUTION_LABEL = {
+  RESOLVED:  'Resolved',
+  FOLLOW_UP: 'Follow-Up Required',
+  REFERRED:  'Referred to Specialist',
+}
+
 const AdminDashboard = () => {
   const { user, logout } = useAuth()
   useBackLogout()
@@ -19,8 +31,10 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
+  const [typeFilter, setTypeFilter] = useState('all')
   const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('all')
+  const [details, setDetails] = useState(null)
 
   const fetchStats = async () => {
     try {
@@ -54,11 +68,14 @@ const AdminDashboard = () => {
     if (!searchQuery) fetchAll(filterStatus)
   }, [filterStatus])
 
-  const filtered = searchQuery
+  const byStatus = searchQuery
     ? appointments
     : filterStatus
       ? appointments.filter(a => a.request_status === filterStatus || a.status === filterStatus)
       : appointments
+  const filtered = typeFilter === 'all'
+    ? byStatus
+    : byStatus.filter(a => a.booker_type === typeFilter)
 
   return (
     <div className="dashboard-container">
@@ -92,7 +109,7 @@ const AdminDashboard = () => {
         {/* Search + Filter bar */}
         <div style={{ background:'white', padding:'20px', borderRadius:'12px', marginBottom:'20px', boxShadow:'0 2px 8px rgba(0,0,0,0.07)', display:'flex', gap:'12px', flexWrap:'wrap', alignItems:'flex-end' }}>
           <div style={{ flex:1, minWidth:'200px' }}>
-            <label style={{ display:'block', marginBottom:'6px', fontWeight:'600', fontSize:'0.9rem' }}>🔍 Search by Reg No</label>
+            <label style={{ display:'block', marginBottom:'6px', fontWeight:'600', fontSize:'0.9rem' }}>🔍 Search by Reg No / Email</label>
             <input
               type="text"
               placeholder="e.g. 20BCS001"
@@ -112,8 +129,17 @@ const AdminDashboard = () => {
               <option value="REJECTED">Rejected</option>
             </select>
           </div>
+          <div style={{ minWidth:'150px' }}>
+            <label style={{ display:'block', marginBottom:'6px', fontWeight:'600', fontSize:'0.9rem' }}>Filter by Type</label>
+            <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} style={{ width:'100%', padding:'8px', borderRadius:'6px', border:'1px solid #ddd' }}>
+              <option value="all">All Types</option>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+              <option value="staff">Staff</option>
+            </select>
+          </div>
           <button className="btn btn-primary" onClick={handleSearch} style={{ padding:'8px 20px' }}>Search</button>
-          <button className="btn btn-secondary" onClick={() => { setSearchQuery(''); setFilterStatus(''); fetchAll(); fetchStats() }} style={{ padding:'8px 16px' }}>🔄 Reset</button>
+          <button className="btn btn-secondary" onClick={() => { setSearchQuery(''); setFilterStatus(''); setTypeFilter('all'); fetchAll(); fetchStats() }} style={{ padding:'8px 16px' }}>🔄 Reset</button>
         </div>
 
         {/* Table */}
@@ -129,9 +155,10 @@ const AdminDashboard = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Student Name</th>
-                    <th>Reg No</th>
-                    <th>Branch</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Reg No / Email</th>
+                    <th>Branch / Dept</th>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Counsellor</th>
@@ -145,9 +172,18 @@ const AdminDashboard = () => {
                     return (
                       <tr key={apt.request_id}>
                         <td>{i+1}</td>
-                        <td><strong>{apt.student_name}</strong></td>
-                        <td>{apt.registration_number}</td>
-                        <td>{apt.branch}</td>
+                        <td>
+                          <button onClick={() => setDetails(apt)} style={{ background:'none', border:'none', padding:0, cursor:'pointer', color:'#5b3ba6', fontWeight:600, textAlign:'left' }} title="View full details">
+                            {apt.booker_name}
+                          </button>
+                        </td>
+                        <td>
+                          {(() => { const tb = TYPE_BADGE[apt.booker_type] || { color:'#999', label: apt.booker_type || '-' }; return (
+                            <span style={{ background:tb.color, color:'white', padding:'2px 9px', borderRadius:'10px', fontSize:'0.72rem' }}>{tb.label}</span>
+                          )})()}
+                        </td>
+                        <td>{apt.registration_number || apt.booker_email}</td>
+                        <td>{apt.branch || '-'}</td>
                         <td>{new Date(apt.appointment_date).toLocaleDateString('en-IN')}</td>
                         <td>{apt.time_slot}</td>
                         <td>{apt.counsellor_name || '—'}</td>
@@ -160,6 +196,58 @@ const AdminDashboard = () => {
             </div>
           )}
         </div>
+
+        {details && (
+          <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', display:'flex', justifyContent:'flex-end', zIndex:1100 }} onClick={() => setDetails(null)}>
+            <div style={{ background:'#faf9fc', width:'560px', maxWidth:'96vw', height:'100%', overflowY:'auto', padding:'28px', boxShadow:'-8px 0 32px rgba(0,0,0,0.2)' }} onClick={e => e.stopPropagation()}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
+                <div>
+                  <h2 style={{ margin:0 }}>{details.booker_name}</h2>
+                  <p style={{ margin:'4px 0', color:'#666', fontSize:'0.9rem' }}>
+                    {(TYPE_BADGE[details.booker_type] || {}).label} &nbsp;|&nbsp; {details.registration_number || details.booker_email}
+                    {details.branch ? ' | ' + details.branch : ''}
+                  </p>
+                </div>
+                <button onClick={() => setDetails(null)} style={{ background:'none', border:'none', fontSize:'1.4rem', cursor:'pointer', color:'#888' }}>x</button>
+              </div>
+
+              <section style={{ background:'white', borderRadius:'10px', padding:'16px', marginTop:'18px', boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h4 style={{ margin:'0 0 8px' }}>Issue / Reason</h4>
+                <p style={{ margin:0, color:'#444', whiteSpace:'pre-wrap' }}>{details.description || 'No description provided.'}</p>
+                <p style={{ margin:'10px 0 0', fontSize:'0.85rem', color:'#777' }}>
+                  Requested: {new Date(details.appointment_date).toLocaleDateString('en-IN')} at {details.time_slot}
+                </p>
+              </section>
+
+              <section style={{ background:'white', borderRadius:'10px', padding:'16px', marginTop:'14px', boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h4 style={{ margin:'0 0 8px' }}>Status</h4>
+                {(() => { const b = STATUS_BADGE[details.request_status || details.status] || { color:'#999', label: details.request_status || details.status }; return (
+                  <span style={{ background:b.color, color:'white', padding:'4px 12px', borderRadius:'12px', fontSize:'0.85rem', fontWeight:600 }}>{b.label}</span>
+                )})()}
+                <p style={{ margin:'10px 0 0', fontSize:'0.9rem', color:'#555' }}>
+                  Counsellor: <strong>{details.counsellor_name || 'Not assigned yet'}</strong>
+                </p>
+              </section>
+
+              <section style={{ background:'white', borderRadius:'10px', padding:'16px', marginTop:'14px', boxShadow:'0 1px 4px rgba(0,0,0,0.06)' }}>
+                <h4 style={{ margin:'0 0 8px' }}>Counsellor's Solution</h4>
+                <p style={{ margin:'0 0 8px', color:'#444', whiteSpace:'pre-wrap' }}>
+                  <em>Session Notes:</em> {details.action_performed || 'Not recorded yet.'}
+                </p>
+                <p style={{ margin:'0 0 8px', color:'#444', whiteSpace:'pre-wrap' }}>
+                  <em>Prescription / Advice:</em> {details.prescription || 'None provided.'}
+                </p>
+                {details.resolution && (
+                  <p style={{ margin:0, color:'#444' }}>
+                    <em>Resolution:</em> {RESOLUTION_LABEL[details.resolution] || details.resolution}
+                  </p>
+                )}
+              </section>
+
+              <button className="btn btn-secondary" style={{ marginTop:'16px' }} onClick={() => setDetails(null)}>Close</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

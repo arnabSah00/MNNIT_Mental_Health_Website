@@ -104,7 +104,13 @@ export const counsellorAPI = {
   updateAppointment: (id, data) =>
     apiClient.put(`/counsellor/appointments/${id}`, data),
   confirmBooking: (id, data) =>
-    apiClient.post(`/counsellor/appointments/${id}/confirm`, data)
+    apiClient.post(`/counsellor/appointments/${id}/confirm`, data),
+  getBookerHistory: (bookerId) =>
+    apiClient.get(`/counsellor/bookers/${bookerId}/history`),
+  updateStatus: (id, status) =>
+    apiClient.put(`/counsellor/appointments/${id}/status`, { status }),
+  savePrescription: (id, data) =>
+    apiClient.put(`/counsellor/appointments/${id}/prescription`, data)
 }
 
 // Administrator API
@@ -132,6 +138,8 @@ export const deanAPI = {
     apiClient.get(`/dean/trends?period=${period}`),
   generateReport: (startDate, endDate) =>
     apiClient.get('/dean/report', { params: { startDate, endDate } }),
+  getAllAppointments: () =>
+    apiClient.get('/dean/appointments'),
 }
 
 // Public API

@@ -14,29 +14,29 @@ export const TEAM = {
       {
         name: 'Prof. Neeraj Tyagi',
         role: 'Academic Affairs',
-        email: 'headadmin@mnnit.ac.in',
-        phone: '+91-512-2259-101',
-        qualification: 'Ph.D. in Administration',
-        expertise: 'Oversees administration, policy, and partnerships.',
-        photo: null
+        email: 'neeraj@mnnit.ac.in',
+        phone: '+91-05322271657',
+        qualification: 'B.E (CS), M.E (CSED) and Ph.D MNNIT ',
+        // expertise: 'Computer Network, Wireless Network, Mesh Network and Ad-hoc Network.',
+        photo: 'src/assets/event/team/neeraj.jpg'
       },
       {
         name: 'Prof. Vinay Kumar Srivastava',
         role: 'Faculty Welfare',
-        email: 'headclinical@mnnit.ac.in',
-        phone: '+91-512-2259-102',
-        qualification: 'M.D. Psychiatry',
-        expertise: 'Oversees clinical care and mental health services.',
-        photo: null
+        email: 'vinay@mnnit.ac.in',
+        phone: '+91-9140228182',
+        qualification: 'B.E.(Electronics & Telecommunication) , M.Tech.(Communication Systems),Ph.D.EE/IIT Kanpur. ',
+        // expertise: 'Image Processing, Image watermarking, Data security in e-healthcare applications, Digital Signal Processing, Communication Systems.',
+        photo: 'src/assets/event/team/vinay.jpg'
       },
       {
         name: 'Prof. Asheesh Kumar Singh',
         role: 'Students Welfare',
-        email: 'headclinical@mnnit.ac.in',
-        phone: '+91-512-2259-102',
-        qualification: 'M.D. Psychiatry',
-        expertise: 'Oversees clinical care and mental health services.',
-        photo: null
+        email: 'asheesh@mnnit.ac.in',
+        phone: '+91-9455133600',
+        qualification: 'B.Tech(Electrical Engineering), M.Tech.(Control systems, Department of Electrical Engineering), Ph.D(Department of Electronics and Computer Engineering).',
+        // expertise: 'Deep Learning-based Fault Diagnosis, Power quality, Microgrids, E-mobility, Renewable Energy Integration in Distribution System.',
+        photo: 'src/assets/event/team/Ashish.jpg'
       }
     ]
   },
@@ -45,32 +45,32 @@ export const TEAM = {
     label: 'Counsellors',
     members: [
       {
-        name: 'Priya Nair',
-        role: 'Coordinator / Counsellor',
-        email: 'priya.counsellor@mnnit.ac.in',
-        phone: '+91-512-2259-201',
+        name: 'Dr. Kamlesh Kumar',
+        role: 'Professional Counsellor / Psychologist',
+        email: 'drkamlesh50@gmail.com',
+        phone: '+91-8765626540',
         qualification: 'M.Phil. in Clinical Psychology',
         expertise: 'CBT, REBT, psychodiagnostic assessment.',
         photo: null
       },
       {
-        name: 'Arjun Mehta',
-        role: 'Associate Counsellor',
-        email: 'arjun.counsellor@mnnit.ac.in',
-        phone: '+91-512-2259-202',
+        name: 'Mrs. Kalpana Srivastava',
+        role: 'Professional Counsellor / Psychologist',
+        email: 'kalpansrivastava509@gmail.com',
+        phone: '+91-9695930890',
         qualification: "Master's in Psychology",
         expertise: 'Trauma-informed care, mindfulness-based interventions.',
         photo: null
       },
-      {
-        name: 'Sneha Iyer',
-        role: 'Assistant Counsellor',
-        email: 'sneha.counsellor@mnnit.ac.in',
-        phone: '+91-512-2259-203',
-        qualification: "Master's in Applied Psychology",
-        expertise: 'DBT, ACT, crisis intervention.',
-        photo: null
-      }
+      // {
+      //   name: 'Sneha Iyer',
+      //   role: 'Assistant Counsellor',
+      //   email: 'sneha.counsellor@mnnit.ac.in',
+      //   phone: '+91-512-2259-203',
+      //   qualification: "Master's in Applied Psychology",
+      //   expertise: 'DBT, ACT, crisis intervention.',
+      //   photo: null
+      // }
     ]
   },
 
@@ -78,23 +78,32 @@ export const TEAM = {
     label: 'Psychiatrists',
     members: [
       {
-        name: 'Dr. Vikram Rao',
-        role: 'Consultant Psychiatrist',
-        email: 'vikram.psych@mnnit.ac.in',
-        phone: '+91-512-2259-301',
-        qualification: 'M.D. Psychiatry',
-        expertise: 'Mood and anxiety disorders, youth mental health.',
+       name: 'Dr. Kamlesh Kumar',
+        role: 'Professional Counsellor / Psychologist',
+        email: 'drkamlesh50@gmail.com',
+        phone: '+91-8765626540',
+        qualification: 'M.Phil. in Clinical Psychology',
+       expertise: 'CBT, REBT, psychodiagnostic assessment.',
         photo: null
       },
       {
-        name: 'Dr. Meera Joshi',
-        role: 'Consultant Psychiatrist',
-        email: 'meera.psych@mnnit.ac.in',
-        phone: '+91-512-2259-302',
-        qualification: 'M.D. Psychiatry',
-        expertise: 'Clinical drug trials, adult psychiatry.',
+        name: 'Mrs. Kalpana Srivastava',
+        role: 'Professional Counsellor / Psychologist',
+        email: 'kalpansrivastava509@gmail.com',
+        phone: '+91-9695930890',
+        qualification: "Master's in Psychology",
+        expertise: 'Trauma-informed care, mindfulness-based interventions.',
         photo: null
-      }
+      },
+      {
+    name: 'Dr. Pushkar Nigam',
+    role: 'Neuro Physician',
+    email: 'Pushkar509@gmail.com',
+        phone: '+91-9695156514',
+        qualification: "Master's in Psychology",
+        expertise: 'Brain Neuroplasticity, mindfulness-based interventions.',
+        photo: null
+}
     ]
   },
     faculty: {
@@ -102,21 +111,39 @@ export const TEAM = {
         members: [
         {
             name: 'Dr. Dinesh Singh',
-            role: 'Head — Admin',
-            email: 'headadmin@mnnit.ac.in',
-            phone: '+91-512-2259-101',
-            qualification: 'Ph.D. in Administration',
-            expertise: 'Oversees administration, policy, and partnerships.',
-            photo: null
+            role: 'Faculty In-Charge Boys',
+            email: 'dinesh_singh@mnnit.ac.in',
+            phone: '+91-9455421546',
+            qualification: 'Uttar Pradesh Technical University, Lucknow, A Fast Motion Estimation Algorithm for Digital Image Stabilization , IIT Roorkee, Efficient Cluster-Based Misbehavior Detection and Revocation of Malicious Vehicle in VANET, CSED, MNNIT Allahabad.',
+            // expertise: 'Vehicular ad-hoc Networks, Data Mining, Edge Computing, Machine Learning.',
+            photo: 'src/assets/event/team/dinesh.jpg'
         },
         {
             name: 'Dr. Rajitha B',
-            role: 'Head — Clinical',
-            email: 'headclinical@mnnit.ac.in',
-            phone: '+91-512-2259-102',
-            qualification: 'M.D. Psychiatry',
-            expertise: 'Oversees clinical care and mental health services.',
-            photo: null
+            role: 'Faculty In-charge Girls',
+            email: 'rajitha@mnnit.ac.in',
+            phone: '+91-8052355544',
+            qualification: 'B. Tech in Computer Science and Information Technology, Master of Engineering in Computer Science and Engineering, Ph.D(MNNIT Allahabad).',
+            // expertise: 'Image Processing, Medical Image Processing, Multimedia Processing, Machine Learning in Computer Vision, Deep Learning in Computer Vision, Quantum Machine Learning.',
+            photo: 'src/assets/event/team/Rajitha.jpg'
+        },
+        {
+            name: 'Dr. Abhishek Kundu',
+            role: 'Faculty In-charge Boys',
+            email: 'abhishekkunduamd@mnnit.ac.in',
+            phone: '+91-8420247761',
+            qualification: 'B. Tech (WBUT) in Mechanical Engineering, PhD (AcSIR) in Computational Fluid Dynamics.',
+            // expertise: 'Image Processing, Medical Image Processing, Multimedia Processing, Machine Learning in Computer Vision, Deep Learning in Computer Vision, Quantum Machine Learning.',
+            photo: 'src/assets/event/team/abhishek.jpeg'
+        },
+        {
+            name: 'Dr. Kanika Saxena',
+            role: 'Faculty In-charge Girls',
+            email: 'kanika@mnnit.ac.in',
+            phone: '+91-9915856595',
+            qualification: 'Civil Engineering (MBM Jodhpur), Environmental Engineering (MNIT Jaipur), Civil Engineering (MNIT Jaipur).',
+            // expertise: 'Image Processing, Medical Image Processing, Multimedia Processing, Machine Learning in Computer Vision, Deep Learning in Computer Vision, Quantum Machine Learning.',
+            photo: 'src/assets/event/team/kanika.jpeg'
         }
         ]
     },
@@ -191,31 +218,31 @@ export const TEAM = {
     label: 'PG Team',
     members: [
       {
-        name: 'Rohan Das',
+        name: 'Rahul Yadav',
         role: 'PG Volunteer',
-        email: 'rohan@mnnit.ac.in',
-        phone: '+91-90000-00005',
+        email: 'rahul.2024rcs07@mnnit.ac.in ',
+        phone: '+91-7318178453',
         qualification: '',
         expertise: '',
         photo: null
       },
       {
-        name: 'Sanya Kapoor',
+        name: 'Arnab Sahoo',
         role: 'PG Volunteer',
-        email: 'sanya@mnnit.ac.in',
-        phone: '+91-90000-00006',
+        email: 'arnab.2025ds04@mnnit.ac.in ',
+        phone: '+91-9932333757',
         qualification: '',
         expertise: '',
-        photo: null
+        photo: 'src/assets/event/team/arnab.jpg'
       },
       {
-        name: 'Vikas Yadav',
+        name: 'Utkarsh Verma',
         role: 'PG Volunteer',
-        email: 'vikas@mnnit.ac.in',
-        phone: '+91-90000-00007',
+        email: 'arnab.2025ds21@mnnit.ac.in',
+        phone: '+91-9026584799',
         qualification: '',
         expertise: '',
-        photo: null
+        photo: 'src/assets/event/team/utkarsh.jpg'
       },
       {
         name: 'Pooja Reddy',

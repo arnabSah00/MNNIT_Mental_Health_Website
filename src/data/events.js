@@ -144,6 +144,34 @@ const RAW_EVENTS = [
     // PASTE YOUTUBE URL(S) HERE
     videos: ['https://www.youtube.com/watch?v=NvvMBg72JXk&list=PLg0LA_bABYR2gYpbpQtcsLnBE_YBMEePp&index=2'],
     placeholderColor: '34495e'
+  },
+  {
+    id: 'pdw',
+    title: 'PDW — Personality Development Workshop',
+    shortName: 'PDW',
+    date: 'Jan 30-Feb 01(2026)',
+    sortDate: '2026-01-30',
+    venue: 'MNNIT Allahabad Campus',
+    guest: 'Tedx Speaker for BetterMent of Students, MNNIT Allahabad',
+    description:
+      'Regarding Better Personlaity of Students.',
+    // PASTE YOUTUBE URL(S) HERE
+    videos: [],
+    placeholderColor: '34495e'
+  },
+  {
+    id: 'smsw',
+    title: 'SMSW — Student Mentoring Skill Workshop',
+    shortName: 'SMSW',
+    date: 'June-29 (2026)',
+    sortDate: '2026-06-29',
+    venue: 'Online',
+    guest: 'Prof. Purnima Singh \'Department of Humanities & Social Sciences \' Indian Institute of Technology Delhi (IIT Delhi)',
+    description:
+      'Building Positive Mentor–Mentee Relationships: Psychological Foundations for Effective Student Mentoring.',
+    // PASTE YOUTUBE URL(S) HERE
+    videos: [],
+    placeholderColor: '34495e'
   }
 ]
 

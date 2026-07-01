@@ -1,0 +1,205 @@
+.counsel-page {
+  min-height: 100vh;
+  background: #fdfcfb;
+  padding-bottom: 70px;
+}
+
+.counsel-hero {
+  background: linear-gradient(135deg, #5b3ba6 0%, #8b5fbf 100%);
+  color: white;
+  text-align: center;
+  padding: 64px 20px 52px;
+}
+
+.counsel-eyebrow {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.counsel-hero h1 {
+  font-size: 40px;
+  margin: 0;
+}
+
+.counsel-container {
+  max-width: 1000px;
+  margin: 36px auto 0;
+  padding: 0 20px;
+}
+
+.counsel-intro,
+.counsel-note {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 24px;
+}
+
+.counsel-keybox {
+  background: #f3eefc;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 34px;
+}
+
+.counsel-keybox-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8b5fbf;
+  margin-bottom: 10px;
+}
+
+.counsel-keybox-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+.counsel-key-item {
+  font-size: 13px;
+  color: #555;
+}
+
+.counsel-key-item strong {
+  color: #5b3ba6;
+}
+
+.counsel-section-title {
+  font-size: 22px;
+  color: #2c1a4d;
+  margin: 0 0 18px;
+}
+
+.counsel-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+}
+
+.counsel-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  min-width: 640px;
+}
+
+.counsel-table thead {
+  background: linear-gradient(135deg, #5b3ba6 0%, #8b5fbf 100%);
+  color: white;
+}
+
+.counsel-table th {
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.counsel-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0eaf8;
+  font-size: 14px;
+  color: #444;
+  vertical-align: top;
+}
+
+.counsel-table tr:last-child td {
+  border-bottom: none;
+}
+
+.counsel-table tbody tr:hover {
+  background: #faf7ff;
+}
+
+.counsel-name {
+  display: block;
+  font-weight: 600;
+  color: #2c1a4d;
+}
+
+.counsel-role {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.counsel-place {
+  display: inline-block;
+  background: #f3eefc;
+  color: #5b3ba6;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.counsel-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #5b3ba6;
+  text-decoration: none;
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+.counsel-link:hover {
+  text-decoration: underline;
+}
+
+.counsel-link svg {
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.counsel-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.counsel-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border-top: 3px solid #8b5fbf;
+}
+
+.counsel-card h3 {
+  font-size: 16px;
+  color: #2c1a4d;
+  margin: 0 0 4px;
+}
+
+.counsel-card-role {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8b5fbf;
+  margin-bottom: 8px;
+}
+
+.counsel-card-dept {
+  font-size: 13px;
+  color: #777;
+  margin: 0 0 12px;
+}
+
+@media (max-width: 600px) {
+  .counsel-hero h1 {
+    font-size: 30px;
+  }
+}

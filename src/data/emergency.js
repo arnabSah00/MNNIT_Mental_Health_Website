@@ -69,7 +69,7 @@ export const EMERGENCY_CATEGORIES = [
     contacts: [
       {
         dept: 'Dean (Student Welfare)',
-        person: 'Prof. A. K. Singh',
+        person: 'Prof. Neeraj Tyagi',
         phone: '0512-2259-730',
         email: 'dsw@mnnit.ac.in'
       },

@@ -31,6 +31,12 @@ import ResourceCards from './components/home/ResourceCards'
 import Testimonials from './components/home/Testimonials'
 import Gallery from './components/home/Gallery'
 
+import CounsellingPage from './pages/CounsellingPage'
+import DeAddictionPage from './pages/DeAddictionPage'
+
+import ArticlesPage from './pages/ArticlesPage'
+import ArticleDetailPage from './pages/ArticleDetailPage'
+
 import './styles/App.css'
 
 function App() {
@@ -66,6 +72,13 @@ function App() {
               <Route path="/event" element={<EventsPage />} />
               <Route path="/event/:id" element={<EventDetailPage />} />
               <Route path="/team" element={<TeamPage />} />
+
+              <Route path="/individual-counselling" element={<CounsellingPage />} />
+              <Route path="/de-addiction" element={<DeAddictionPage />} />
+
+              <Route path="/wellness-articles" element={<ArticlesPage />} />
+              <Route path="/wellness-articles/:id" element={<ArticleDetailPage />} />
+
               <Route path="/emergency" element={<EmergencyPage />} />
               <Route path="/faqs" element={<FAQPage />} />
 

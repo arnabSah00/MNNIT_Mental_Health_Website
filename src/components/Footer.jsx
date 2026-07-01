@@ -22,7 +22,7 @@ const Footer = () => {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/login">Login</Link></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="#team">Team</a></li>
+            <li><a href="/team">Team</a></li>
           </ul>
         </div>
 

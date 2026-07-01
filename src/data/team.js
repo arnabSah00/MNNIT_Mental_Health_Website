@@ -8,12 +8,12 @@
 // ---------------------------------------------------------------------------
 
 export const TEAM = {
-  heads: {
-    label: 'Heads',
+  Deans: {
+    label: 'Deans',
     members: [
       {
-        name: 'Dr. Rajesh Verma',
-        role: 'Head — Admin',
+        name: 'Prof. Neeraj Tyagi',
+        role: 'Academic Affairs',
         email: 'headadmin@mnnit.ac.in',
         phone: '+91-512-2259-101',
         qualification: 'Ph.D. in Administration',
@@ -21,8 +21,17 @@ export const TEAM = {
         photo: null
       },
       {
-        name: 'Dr. Anita Sharma',
-        role: 'Head — Clinical',
+        name: 'Prof. Vinay Kumar Srivastava',
+        role: 'Faculty Welfare',
+        email: 'headclinical@mnnit.ac.in',
+        phone: '+91-512-2259-102',
+        qualification: 'M.D. Psychiatry',
+        expertise: 'Oversees clinical care and mental health services.',
+        photo: null
+      },
+      {
+        name: 'Prof. Asheesh Kumar Singh',
+        role: 'Students Welfare',
         email: 'headclinical@mnnit.ac.in',
         phone: '+91-512-2259-102',
         qualification: 'M.D. Psychiatry',
@@ -223,7 +232,7 @@ export const TEAM = {
 
 // Order the tabs appear in.
 export const TEAM_SECTION_ORDER = [
-  'heads',
+  'Deans',
   'counsellors',
   'psychiatrists',
   'faculty',

@@ -56,13 +56,13 @@ const Header = () => {
     { label: 'Team', href: '/team', type: 'link' },
     {
       label: 'Services',
-      href: '#services',
-      type: 'anchor',
+      href: '#',
+      type: 'noaction',
       submenu: [
-        { label: 'Mental Health Support', href: '#', type: 'anchor' },
-        { label: 'Counseling Sessions', href: '#', type: 'anchor' },
-        { label: 'Crisis Support', href: '#', type: 'anchor' },
-        { label: 'Group Therapy', href: '#', type: 'anchor' }
+        { label: 'Individual Counselling', href: '/individual-counselling', type: 'link' },
+        { label: 'De-addiction Clinic', href: '/de-addiction', type: 'link' },
+        { label: 'Events & Workshops', href: '/event', type: 'link' },
+        { label: 'External 24×7 Counselling', href: '/tele_manas ', type: 'link' }
       ]
     },
     {
@@ -71,14 +71,12 @@ const Header = () => {
       type: 'noaction',
       submenu: [
         { label: 'Academic Resources', type: 'header' },
-        { label: 'Information for Students', href: '#', type: 'anchor' },
-        { label: 'Academic Help', href: '#', type: 'anchor' },
-        { label: 'Wellness Programs', href: '#', type: 'anchor' },
+        { label: 'Information for Students', href: 'https://www.mnnit.ac.in/index.php/announcements/355-brief-information-for-smooth-registration-process-for-dasa-2015-ccmt-2015', type: 'external' },
+        { label: 'Wellness Programs', href: 'https://www.mnnit.ac.in/index.php/institute/466-workshop', type: 'external' },
         { label: 'Mental Health Resources', type: 'header' },
         // { label: 'Self Assessment Tools', href: '#', type: 'anchor' },
-        { label: 'Wellness Articles', href: '#', type: 'anchor' },
-        { label: 'Meditation Videos', href: '#', type: 'anchor' },
-        { label: 'Resource Library', href: '#', type: 'anchor' },
+        { label: 'Wellness Articles', href: '/wellness-articles', type: 'link' },
+        // { label: 'Resource Library', href: '#', type: 'anchor' },
         { label: 'FAQs', href: '/faqs', type: 'link' },
       ]
     },
@@ -96,10 +94,9 @@ const Header = () => {
     {
       label: 'Support',
       href: '#support',
-      type: 'anchor',
+      type: 'noaction',
       submenu: [
-        { label: 'Peer Support', href: '#', type: 'anchor' },
-        { label: 'Crisis Resources', href: '#', type: 'anchor' },
+        { label: 'Peer Support', href: '/team', type: 'link' },
         { label: 'External 24x7 Counselling by Tele MANAS', href: '/tele_manas', type: 'link' }
       ]
     },

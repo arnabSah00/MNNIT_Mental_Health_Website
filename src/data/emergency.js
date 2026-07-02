@@ -19,16 +19,16 @@ export const EMERGENCY_CATEGORIES = [
       'The Center for Mental Health and Wellbeing is managed by the Head-Admin and Head-Clinical to ensure both administrative efficiency and clinical excellence.',
     cards: [
       {
-        name: 'Dr. Rajesh Verma',
-        role: 'Head-Admin, CMHW',
-        office: 'Admin Block, MNNIT',
-        email: 'headadmin@mnnit.ac.in'
+        name: 'Dr. Kamlesh Kumar',
+        role: 'Professional Counsellor / Psychologist',
+        office: 'Health Center, MNNIT',
+        email: 'drkamlesh50@gmail.com'
       },
       {
-        name: 'Dr. Anita Sharma',
-        role: 'Head-Clinical, CMHW',
+        name: 'Mrs. Kalpana Srivastava',
+        role: 'Professional Counsellor / Psychologist',
         office: 'Health Centre, MNNIT',
-        email: 'headclinical@mnnit.ac.in'
+        email: 'kalpansrivastava509@gmail.com'
       }
     ]
   },
@@ -37,19 +37,19 @@ export const EMERGENCY_CATEGORIES = [
     label: 'Health Centre',
     title: 'Health Centre',
     rows: [
-      { dept: 'Emergency (Indoor)', phones: ['0512-2259-700'], danger: true },
+      { dept: 'Emergency (Indoor)', phones: ['0532-2271809'], danger: true },
       { dept: 'Reception (Outdoor)', phones: ['0512-2259-701', '0512-2259-702'] }
     ]
   },
   {
-    id: 'security',
-    label: 'Security / Police',
-    title: 'Security & Police',
+    id: 'ambulance',
+    label: 'Ambulance ',
+    title: 'Ambulance',
     rows: [
-      { dept: 'Security Control Room', phones: ['0512-2259-710'] },
-      { dept: 'Security Office', phones: ['0512-2259-711', '0512-2259-712'] },
-      { dept: 'Main Gate', phones: ['0512-2259-713'] },
-      { dept: 'Police Chowki', phones: ['0512-2259-714'] }
+      { dept: 'Ambulance Number', phones: ['0532-2271809' , '9415014451'] },
+      // { dept: 'Security Office', phones: ['0512-2259-711', '0512-2259-712'] },
+      // { dept: 'Main Gate', phones: ['0512-2259-713'] },
+      // { dept: 'Police Chowki', phones: ['0512-2259-714'] }
     ]
   },
   {
@@ -68,22 +68,24 @@ export const EMERGENCY_CATEGORIES = [
     title: 'Institute Deans',
     contacts: [
       {
-        dept: 'Dean (Student Welfare)',
+        dept: 'Academic Affairs',
         person: 'Prof. Neeraj Tyagi',
-        phone: '0512-2259-730',
-        email: 'dsw@mnnit.ac.in'
+        email: 'neeraj@mnnit.ac.in',
+        phone: '+91-05322271657',
       },
       {
-        dept: 'Dean (Academic Affairs)',
-        person: 'Prof. B. Kumar',
-        phone: '0512-2259-731',
-        email: 'daa@mnnit.ac.in'
+        dept: 'Faculty Welfare',
+        person: 'Prof. Vinay Kumar Srivastava',
+        // role: 'Faculty Welfare',
+        email: 'vinay@mnnit.ac.in',
+        phone: '+91-9140228182',
       },
       {
-        dept: 'Dean (R & C)',
-        person: 'Prof. C. Sharma',
-        phone: '0512-2259-732',
-        email: 'drc@mnnit.ac.in'
+        dept: 'Students Welfare',
+        name: 'Prof. Asheesh Kumar Singh',
+        // role: 'Students Welfare',
+        email: 'asheesh@mnnit.ac.in',
+        phone: '+91-9455133600',
       }
     ]
   }

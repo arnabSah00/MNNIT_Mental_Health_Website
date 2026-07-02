@@ -18,7 +18,7 @@ export const TEAM = {
         phone: '+91-05322271657',
         qualification: 'B.E (CS), M.E (CSED) and Ph.D MNNIT ',
         // expertise: 'Computer Network, Wireless Network, Mesh Network and Ad-hoc Network.',
-        photo: 'src/assets/event/team/neeraj.jpg'
+        photo: 'src/assets/team/neeraj.jpg'
       },
       {
         name: 'Prof. Vinay Kumar Srivastava',
@@ -27,7 +27,7 @@ export const TEAM = {
         phone: '+91-9140228182',
         qualification: 'B.E.(Electronics & Telecommunication) , M.Tech.(Communication Systems),Ph.D.EE/IIT Kanpur. ',
         // expertise: 'Image Processing, Image watermarking, Data security in e-healthcare applications, Digital Signal Processing, Communication Systems.',
-        photo: 'src/assets/event/team/vinay.jpg'
+        photo: 'src/assets/team/vinay.jpg'
       },
       {
         name: 'Prof. Asheesh Kumar Singh',
@@ -36,7 +36,7 @@ export const TEAM = {
         phone: '+91-9455133600',
         qualification: 'B.Tech(Electrical Engineering), M.Tech.(Control systems, Department of Electrical Engineering), Ph.D(Department of Electronics and Computer Engineering).',
         // expertise: 'Deep Learning-based Fault Diagnosis, Power quality, Microgrids, E-mobility, Renewable Energy Integration in Distribution System.',
-        photo: 'src/assets/event/team/Ashish.jpg'
+        photo: 'src/assets/team/Ashish.jpg'
       }
     ]
   },
@@ -116,7 +116,7 @@ export const TEAM = {
             phone: '+91-9455421546',
             qualification: 'Uttar Pradesh Technical University, Lucknow, A Fast Motion Estimation Algorithm for Digital Image Stabilization , IIT Roorkee, Efficient Cluster-Based Misbehavior Detection and Revocation of Malicious Vehicle in VANET, CSED, MNNIT Allahabad.',
             // expertise: 'Vehicular ad-hoc Networks, Data Mining, Edge Computing, Machine Learning.',
-            photo: 'src/assets/event/team/dinesh.jpg'
+            photo: 'src/assets/team/dinesh.jpg'
         },
         {
             name: 'Dr. Rajitha B',
@@ -125,7 +125,7 @@ export const TEAM = {
             phone: '+91-8052355544',
             qualification: 'B. Tech in Computer Science and Information Technology, Master of Engineering in Computer Science and Engineering, Ph.D(MNNIT Allahabad).',
             // expertise: 'Image Processing, Medical Image Processing, Multimedia Processing, Machine Learning in Computer Vision, Deep Learning in Computer Vision, Quantum Machine Learning.',
-            photo: 'src/assets/event/team/Rajitha.jpg'
+            photo: 'src/assets/team/Rajitha.jpg'
         },
         {
             name: 'Dr. Abhishek Kundu',
@@ -134,7 +134,7 @@ export const TEAM = {
             phone: '+91-8420247761',
             qualification: 'B. Tech (WBUT) in Mechanical Engineering, PhD (AcSIR) in Computational Fluid Dynamics.',
             // expertise: 'Image Processing, Medical Image Processing, Multimedia Processing, Machine Learning in Computer Vision, Deep Learning in Computer Vision, Quantum Machine Learning.',
-            photo: 'src/assets/event/team/abhishek.jpeg'
+            photo: 'src/assets/team/abhishek.jpeg'
         },
         {
             name: 'Dr. Kanika Saxena',
@@ -143,7 +143,7 @@ export const TEAM = {
             phone: '+91-9915856595',
             qualification: 'Civil Engineering (MBM Jodhpur), Environmental Engineering (MNIT Jaipur), Civil Engineering (MNIT Jaipur).',
             // expertise: 'Image Processing, Medical Image Processing, Multimedia Processing, Machine Learning in Computer Vision, Deep Learning in Computer Vision, Quantum Machine Learning.',
-            photo: 'src/assets/event/team/kanika.jpeg'
+            photo: 'src/assets/team/kanika.jpeg'
         }
         ]
     },
@@ -233,7 +233,7 @@ export const TEAM = {
         phone: '+91-9932333757',
         qualification: '',
         expertise: '',
-        photo: 'src/assets/event/team/arnab.jpg'
+        photo: 'src/assets/team/arnab.jpg'
       },
       {
         name: 'Utkarsh Verma',
@@ -242,7 +242,7 @@ export const TEAM = {
         phone: '+91-9026584799',
         qualification: '',
         expertise: '',
-        photo: 'src/assets/event/team/utkarsh.jpg'
+        photo: 'src/assets/team/utkarsh.jpg'
       },
       {
         name: 'Pooja Reddy',

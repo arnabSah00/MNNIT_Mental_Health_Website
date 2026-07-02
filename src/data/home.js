@@ -77,7 +77,7 @@ export const RESOURCE_CARDS = [
     title: 'Individual Counselling',
     desc: 'One-on-one support for personal, academic, and emotional challenges.',
     cta: 'Book Now',
-    url: '/login/student'
+    url: '/book-appointment'
   },
   {
     icon: 'phone',
@@ -101,7 +101,7 @@ export const RESOURCE_CARDS = [
     title: 'Peer Support',
     desc: 'Breaking the cycle of isolation through peer support groups.',
     cta: 'Join Us',
-    url: '#'
+    url: '/team'
   },
   {
     icon: 'comments',

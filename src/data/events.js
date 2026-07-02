@@ -154,7 +154,7 @@ const RAW_EVENTS = [
     venue: 'MNNIT Allahabad Campus',
     guest: 'Tedx Speaker for BetterMent of Students, MNNIT Allahabad',
     description:
-      'Regarding Better Personlaity of Students.',
+      'Regarding Better Personality of Students.',
     // PASTE YOUTUBE URL(S) HERE
     videos: [],
     placeholderColor: '34495e'
